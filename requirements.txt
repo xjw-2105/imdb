@@ -1,0 +1,33 @@
+# IMDb 电影评论分析系统 - 依赖列表
+# 云端部署 (Streamlit Cloud) 使用
+
+# 核心框架
+streamlit>=1.28.0
+
+# 数据处理
+pandas>=2.0.0
+numpy>=1.24.0
+
+# 可视化
+plotly>=5.18.0
+
+# Excel 导出
+openpyxl>=3.1.0
+
+# NLP 
+nltk>=3.8.0
+# transformers>=4.30.0  # 如需Transformer模型，取消注释
+# torch>=2.0.0          # 如需Transformer模型，取消注释
+
+# RAG 
+# chromadb>=0.4.0       # 向量数据库
+# sentence-transformers>=2.2.0  # 嵌入模型
+
+# API 调用 
+openai>=1.0.0          # DeepSeek/OpenAI API 兼容
+python-dotenv>=1.0.0   # 环境变量加载
+
+# 爬虫 (本地运行，云端不需要)
+# selenium>=4.15.0
+# webdriver-manager>=4.0.0
+# beautifulsoup4>=4.12.0
