@@ -88,21 +88,28 @@ def apply_theme_css():
         }}
         #MainMenu, footer, header {{visibility: hidden;}}
         
-        /* 侧边栏样式 - 更明显 */
-        [data-testid="stSidebar"] {{
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-            border-right: 2px solid {theme['primary']};
+        /* 侧边栏样式 */
+        section[data-testid="stSidebar"] {{
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%) !important;
+            border-right: 3px solid {theme['primary']} !important;
+            min-width: 280px !important;
         }}
-        [data-testid="stSidebar"] > div:first-child {{
+        section[data-testid="stSidebar"] > div {{
             padding-top: 1rem;
         }}
-        /* 侧边栏展开按钮更明显 */
-        [data-testid="collapsedControl"] {{
+        
+        /* 侧边栏展开按钮 - 多种选择器确保兼容 */
+        button[kind="header"], 
+        [data-testid="collapsedControl"],
+        [data-testid="stSidebarCollapseButton"],
+        .css-1rs6os {{
             background: {theme['primary']} !important;
             color: #000 !important;
-            border-radius: 0 8px 8px 0 !important;
-            width: 32px !important;
-            height: 80px !important;
+            border-radius: 0 12px 12px 0 !important;
+            min-width: 40px !important;
+            min-height: 100px !important;
+            border: none !important;
+            left: 0 !important;
         }}
         
         .metric-card {{
@@ -114,7 +121,7 @@ def apply_theme_css():
         }}
         .metric-card:hover {{ 
             transform: translateY(-4px); 
-            box-shadow: 0 12px 40px {theme['primary']}26; 
+            box-shadow: 0 12px 40px rgba(245,197,24,0.15); 
         }}
         .metric-value {{ font-size: 2rem; font-weight: 700; color: #ffffff; }}
         .metric-label {{ font-size: 0.875rem; color: #9ca3af; }}
