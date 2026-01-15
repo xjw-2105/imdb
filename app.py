@@ -571,27 +571,40 @@ def create_sentiment_donut(pos_ratio, neg_ratio=None):
 
 
 def create_trend_chart(df):
-    """创建评分趋势图"""
+    """创建评分趋势图 - 增强错误处理"""
     theme = get_theme()
-    rating_col = 'rating_num' if 'rating_num' in df.columns else None
     
-    if 'date' not in df.columns or rating_col is None:
-        months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
-        ratings = [7.5, 8.0, 7.8, 8.2, 8.5, 8.3]
-    else:
-        df_copy = df.copy()
-        df_copy['date'] = pd.to_datetime(df_copy['date'], errors='coerce')
-        df_copy = df_copy.dropna(subset=['date', rating_col])
+    # 默认数据
+    default_months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+    default_ratings = [7.5, 8.0, 7.8, 8.2, 8.5, 8.3]
+    
+    months = default_months
+    ratings = default_ratings
+    
+    try:
+        rating_col = 'rating_num' if 'rating_num' in df.columns else None
         
-        if df_copy.empty or len(df_copy) < 5:
-            months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
-            ratings = [7.5, 8.0, 7.8, 8.2, 8.5, 8.3]
-        else:
-            df_copy['month'] = df_copy['date'].dt.to_period('M')
-            monthly = df_copy.groupby('month')[rating_col].mean().reset_index()
-            monthly['month'] = monthly['month'].astype(str)
-            months = monthly['month'].tolist()[-12:]  # 最近12个月
-            ratings = monthly[rating_col].tolist()[-12:]
+        if 'date' in df.columns and rating_col is not None:
+            df_copy = df.copy()
+            df_copy['date'] = pd.to_datetime(df_copy['date'], errors='coerce')
+            
+            # 确保 rating_col 是数值类型
+            df_copy[rating_col] = pd.to_numeric(df_copy[rating_col], errors='coerce')
+            
+            df_copy = df_copy.dropna(subset=['date', rating_col])
+            
+            if not df_copy.empty and len(df_copy) >= 5:
+                df_copy['month'] = df_copy['date'].dt.to_period('M')
+                monthly = df_copy.groupby('month')[rating_col].mean().reset_index()
+                monthly['month'] = monthly['month'].astype(str)
+                
+                if len(monthly) > 0:
+                    months = monthly['month'].tolist()[-12:]
+                    ratings = monthly[rating_col].tolist()[-12:]
+    except Exception as e:
+        # 出错时使用默认数据
+        months = default_months
+        ratings = default_ratings
     
     fig = go.Figure()
     fig.add_trace(go.Scatter(
