@@ -88,6 +88,23 @@ def apply_theme_css():
         }}
         #MainMenu, footer, header {{visibility: hidden;}}
         
+        /* 侧边栏样式 - 更明显 */
+        [data-testid="stSidebar"] {{
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            border-right: 2px solid {theme['primary']};
+        }}
+        [data-testid="stSidebar"] > div:first-child {{
+            padding-top: 1rem;
+        }}
+        /* 侧边栏展开按钮更明显 */
+        [data-testid="collapsedControl"] {{
+            background: {theme['primary']} !important;
+            color: #000 !important;
+            border-radius: 0 8px 8px 0 !important;
+            width: 32px !important;
+            height: 80px !important;
+        }}
+        
         .metric-card {{
             background: linear-gradient(135deg, {theme['card_bg']} 0%, rgba(20,25,45,0.9) 100%);
             border: 1px solid rgba(255,255,255,0.08);
@@ -546,10 +563,27 @@ def get_topic_data(df):
 
 # ==================== 可视化函数 ====================
 def create_sentiment_donut(pos_ratio, neg_ratio=None):
-    """创建情感分布甜甜圈图"""
+    """创建情感分布甜甜圈图 - 增强错误处理"""
     theme = get_theme()
+    
+    # 确保 pos_ratio 是有效数值
+    try:
+        pos_ratio = float(pos_ratio)
+        if pd.isna(pos_ratio) or pos_ratio < 0 or pos_ratio > 1:
+            pos_ratio = 0.5
+    except:
+        pos_ratio = 0.5
+    
     if neg_ratio is None:
         neg_ratio = max(0, 1 - pos_ratio - 0.1)
+    else:
+        try:
+            neg_ratio = float(neg_ratio)
+            if pd.isna(neg_ratio) or neg_ratio < 0:
+                neg_ratio = max(0, 1 - pos_ratio - 0.1)
+        except:
+            neg_ratio = max(0, 1 - pos_ratio - 0.1)
+    
     neu_ratio = max(0, 1 - pos_ratio - neg_ratio)
     
     fig = go.Figure(data=[go.Pie(
@@ -1122,23 +1156,41 @@ def render_rag_sources(sources: list, show_all: bool = False):
 
 # ==================== 页面函数 ====================
 def page_dashboard(movie_info, df):
-    """仪表盘页面"""
-    alerts = check_sentiment_alerts(df, movie_info.get('title', ''))
-    if alerts:
-        render_alerts(alerts)
+    """仪表盘页面 - 增强错误处理"""
+    try:
+        alerts = check_sentiment_alerts(df, movie_info.get('title', ''))
+        if alerts:
+            render_alerts(alerts)
+    except Exception as e:
+        pass  # 预警失败不影响主页面
     
-    render_metrics(movie_info, df)
+    try:
+        render_metrics(movie_info, df)
+    except Exception as e:
+        st.error(f"指标加载失败: {e}")
+    
     st.markdown("<br>", unsafe_allow_html=True)
     
     col1, col2 = st.columns([2, 1])
     with col1:
         st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 1rem;">📈 评分趋势</div></div>', unsafe_allow_html=True)
-        st.plotly_chart(create_trend_chart(df), use_container_width=True, config={'displayModeBar': False})
+        try:
+            fig = create_trend_chart(df)
+            st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+        except Exception as e:
+            st.info("📊 趋势图暂无数据")
     
     with col2:
         st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 1rem;">📊 情感分布</div></div>', unsafe_allow_html=True)
-        pos_ratio = (df['sentiment_label'] == 'positive').mean() if 'sentiment_label' in df.columns else 0.5
-        st.plotly_chart(create_sentiment_donut(pos_ratio), use_container_width=True, config={'displayModeBar': False})
+        try:
+            pos_ratio = 0.5
+            if 'sentiment_label' in df.columns:
+                pos_ratio = float((df['sentiment_label'] == 'positive').mean())
+            if pd.isna(pos_ratio):
+                pos_ratio = 0.5
+            st.plotly_chart(create_sentiment_donut(pos_ratio), use_container_width=True, config={'displayModeBar': False})
+        except Exception as e:
+            st.info("📊 情感分布暂无数据")
 
 
 def page_sentiment(movie_info, df):
