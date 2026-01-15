@@ -640,12 +640,23 @@ def create_trend_chart(df):
         months = default_months
         ratings = default_ratings
     
+    # 将主题色转换为rgba格式（Plotly 6.x兼容）
+    primary_color = theme['primary']
+    # 从hex转换为rgba，添加透明度
+    if primary_color.startswith('#'):
+        r = int(primary_color[1:3], 16)
+        g = int(primary_color[3:5], 16)
+        b = int(primary_color[5:7], 16)
+        fill_color = f'rgba({r},{g},{b},0.12)'
+    else:
+        fill_color = 'rgba(245,197,24,0.12)'
+    
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=months, y=ratings, mode='lines+markers',
-        line=dict(color=theme['primary'], width=3),
-        marker=dict(size=10, color=theme['primary']),
-        fill='tozeroy', fillcolor=f"{theme['primary']}20"
+        line=dict(color=primary_color, width=3),
+        marker=dict(size=10, color=primary_color),
+        fill='tozeroy', fillcolor=fill_color
     ))
     fig.update_layout(
         xaxis=dict(showgrid=False, color='#9ca3af', tickangle=45),
