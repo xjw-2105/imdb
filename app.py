@@ -141,7 +141,6 @@ def apply_theme_css():
             padding: 1.5rem;
         }}
         
-        /* 预警样式 */
         .alert-warning {{
             background: rgba(239, 68, 68, 0.15);
             border: 1px solid rgba(239, 68, 68, 0.5);
@@ -157,76 +156,50 @@ def apply_theme_css():
             margin-bottom: 1rem;
         }}
         
-        /* 📱 移动端适配 */
         @media (max-width: 768px) {{
-            .metric-card {{
-                padding: 0.75rem;
-            }}
-            .metric-value {{
-                font-size: 1.5rem;
-            }}
-            .metric-label {{
-                font-size: 0.75rem;
-            }}
-            .card {{
-                padding: 1rem;
-            }}
-            .stSelectbox > div > div {{
-                font-size: 0.9rem;
-            }}
-            h2 {{
-                font-size: 1.25rem !important;
-            }}
-            .comparison-card {{
-                padding: 1rem;
-            }}
+            .metric-card {{ padding: 0.75rem; }}
+            .metric-value {{ font-size: 1.5rem; }}
+            .metric-label {{ font-size: 0.75rem; }}
+            .card {{ padding: 1rem; }}
+            h2 {{ font-size: 1.25rem !important; }}
+            .comparison-card {{ padding: 1rem; }}
         }}
         
         @media (max-width: 480px) {{
-            .metric-value {{
-                font-size: 1.25rem;
-            }}
-            .stButton > button {{
-                font-size: 0.8rem;
-                padding: 0.4rem 0.8rem;
-            }}
+            .metric-value {{ font-size: 1.25rem; }}
+            .stButton > button {{ font-size: 0.8rem; padding: 0.4rem 0.8rem; }}
         }}
     </style>
     """, unsafe_allow_html=True)
 
-# 应用CSS
 apply_theme_css()
 
 # ==================== 多语言情感词典 ====================
 SENTIMENT_LEXICON = {
     'positive': {
-        # 英文正面词
         'masterpiece': 2.0, 'brilliant': 1.8, 'outstanding': 1.7,
         'amazing': 1.6, 'excellent': 1.6, 'fantastic': 1.5,
         'wonderful': 1.5, 'incredible': 1.5, 'perfect': 1.8,
         'beautiful': 1.3, 'stunning': 1.4, 'captivating': 1.4,
-        'compelling': 1.3, 'engaging': 1.2, 'gripping': 1.3,
         'love': 1.2, 'loved': 1.2, 'best': 1.4, 'great': 1.1, 'good': 0.8,
-        # 中文正面词
         '杰作': 2.0, '精彩': 1.6, '完美': 1.8, '出色': 1.5,
         '优秀': 1.4, '感人': 1.3, '震撼': 1.5, '经典': 1.6,
         '喜欢': 1.2, '推荐': 1.3, '好看': 1.2, '精品': 1.5,
     },
     'negative': {
-        # 英文负面词
         'terrible': -1.8, 'awful': -1.7, 'horrible': -1.7,
         'worst': -2.0, 'bad': -1.2, 'poor': -1.3, 'boring': -1.4,
         'disappointing': -1.5, 'waste': -1.4, 'stupid': -1.3,
         'dull': -1.3, 'weak': -1.1, 'mediocre': -1.0,
-        # 中文负面词
         '差': -1.5, '烂': -1.8, '无聊': -1.4, '失望': -1.5,
         '浪费': -1.4, '难看': -1.6, '糟糕': -1.7, '垃圾': -2.0,
     }
 }
 
 
-# ==================== 电影元数据 ====================
+# ==================== 电影元数据 (扩展版) ====================
 MOVIE_METADATA = {
+    # 原有电影
     'tt0111161': {'title': 'The Shawshank Redemption', 'year': 1994, 'rating': 9.3, 
                   'genres': ['Drama'], 'director': 'Frank Darabont', 'poster': '🎭'},
     'tt1375666': {'title': 'Inception', 'year': 2010, 'rating': 8.8, 
@@ -247,7 +220,60 @@ MOVIE_METADATA = {
                    'genres': ['Biography', 'Drama'], 'director': 'Christopher Nolan', 'poster': '💥'},
     'tt1517268': {'title': 'Barbie', 'year': 2023, 'rating': 6.8,
                   'genres': ['Comedy', 'Fantasy'], 'director': 'Greta Gerwig', 'poster': '💗'},
+    
+    # 🆕 新增电影元数据
+    'tt0816692': {'title': 'Interstellar', 'year': 2014, 'rating': 8.7,
+                  'genres': ['Sci-Fi', 'Drama'], 'director': 'Christopher Nolan', 'poster': '🚀'},
+    'tt5697572': {'title': 'Three Billboards Outside Ebbing, Missouri', 'year': 2017, 'rating': 8.1,
+                  'genres': ['Crime', 'Drama'], 'director': 'Martin McDonagh', 'poster': '🪧'},
+    'tt0245429': {'title': 'Spirited Away', 'year': 2001, 'rating': 8.6,
+                  'genres': ['Animation', 'Fantasy'], 'director': 'Hayao Miyazaki', 'poster': '🐉'},
+    'tt1099212': {'title': 'Twilight', 'year': 2008, 'rating': 5.3,
+                  'genres': ['Drama', 'Fantasy'], 'director': 'Catherine Hardwicke', 'poster': '🧛'},
+    'tt0110912': {'title': 'Pulp Fiction', 'year': 1994, 'rating': 8.9,
+                  'genres': ['Crime', 'Drama'], 'director': 'Quentin Tarantino', 'poster': '💼'},
+    'tt4154796': {'title': 'Avengers: Endgame', 'year': 2019, 'rating': 8.4,
+                  'genres': ['Action', 'Sci-Fi'], 'director': 'Russo Brothers', 'poster': '🦸'},
+    'tt0120737': {'title': 'LOTR: Fellowship of the Ring', 'year': 2001, 'rating': 8.9,
+                  'genres': ['Fantasy', 'Adventure'], 'director': 'Peter Jackson', 'poster': '💍'},
+    'tt0172495': {'title': 'Gladiator', 'year': 2000, 'rating': 8.5,
+                  'genres': ['Action', 'Drama'], 'director': 'Ridley Scott', 'poster': '⚔️'},
+    'tt0993846': {'title': 'The Wolf of Wall Street', 'year': 2013, 'rating': 8.2,
+                  'genres': ['Biography', 'Comedy'], 'director': 'Martin Scorsese', 'poster': '💰'},
+    'tt0482571': {'title': 'The Prestige', 'year': 2006, 'rating': 8.5,
+                  'genres': ['Drama', 'Mystery'], 'director': 'Christopher Nolan', 'poster': '🎩'},
 }
+
+
+# ==================== API 密钥获取 (支持云端) ====================
+def get_api_key(key_name: str) -> str:
+    """
+    获取API密钥 - 同时支持本地和云端
+    优先级: st.secrets > 环境变量 > .env文件
+    """
+    # 1. 尝试从 Streamlit Secrets 获取 (云端部署)
+    try:
+        if hasattr(st, 'secrets') and key_name in st.secrets:
+            return st.secrets[key_name]
+    except:
+        pass
+    
+    # 2. 尝试从环境变量获取
+    value = os.getenv(key_name)
+    if value and value != 'your_key_here':
+        return value
+    
+    # 3. 尝试从 .env 文件加载
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+        value = os.getenv(key_name)
+        if value and value != 'your_key_here':
+            return value
+    except:
+        pass
+    
+    return None
 
 
 # ==================== 数据加载函数 ====================
@@ -255,7 +281,15 @@ MOVIE_METADATA = {
 def load_real_data_from_csv(filepath: str, movie_id: str = None) -> dict:
     """从 CSV 文件加载真实数据"""
     try:
-        df = pd.read_csv(filepath, encoding='utf-8-sig')
+        # 尝试多种编码
+        for encoding in ['utf-8-sig', 'utf-8', 'latin-1', 'cp1252']:
+            try:
+                df = pd.read_csv(filepath, encoding=encoding)
+                break
+            except:
+                continue
+        else:
+            return None
         
         column_mapping = {'user': 'author', 'review': 'content', 'text': 'content'}
         df = df.rename(columns={k: v for k, v in column_mapping.items() if k in df.columns})
@@ -279,7 +313,16 @@ def load_real_data_from_csv(filepath: str, movie_id: str = None) -> dict:
             filename = Path(filepath).stem
             movie_id = filename.split('_')[0] if filename.startswith('tt') else 'unknown'
         
-        info = {'id': movie_id, **MOVIE_METADATA.get(movie_id, {'title': movie_id, 'year': None, 'rating': None, 'genres': [], 'director': None, 'poster': '🎬'})}
+        # 获取电影信息，如果不在元数据中则使用默认值
+        default_info = {
+            'title': movie_id, 
+            'year': None, 
+            'rating': None, 
+            'genres': [], 
+            'director': None, 
+            'poster': '🎬'
+        }
+        info = {'id': movie_id, **MOVIE_METADATA.get(movie_id, default_info)}
         
         return {'info': info, 'reviews': df}
     except Exception as e:
@@ -296,45 +339,44 @@ def load_all_movies_from_data_dir(data_dir: str = "data") -> dict:
     if not data_path.exists():
         return movies
     
-    for csv_file in data_path.glob("*_reviews.csv"):
-        movie_id = csv_file.stem.replace('_reviews', '')
+    # 加载所有CSV文件
+    for csv_file in data_path.glob("*.csv"):
+        # 跳过Mac系统文件
+        if csv_file.name.startswith('.') or csv_file.name.startswith('_'):
+            continue
+        
+        # 提取电影ID
+        filename = csv_file.stem
+        if '_reviews' in filename:
+            movie_id = filename.replace('_reviews', '')
+        elif filename.startswith('tt'):
+            movie_id = filename
+        else:
+            movie_id = filename
+        
         movie_data = load_real_data_from_csv(str(csv_file), movie_id)
-        if movie_data:
+        if movie_data and len(movie_data['reviews']) > 0:
             movies[movie_id] = movie_data
-    
-    # 也尝试加载不带 _reviews 后缀的 CSV
-    for csv_file in data_path.glob("tt*.csv"):
-        if '_reviews' not in csv_file.stem:
-            movie_id = csv_file.stem
-            if movie_id not in movies:
-                movie_data = load_real_data_from_csv(str(csv_file), movie_id)
-                if movie_data:
-                    movies[movie_id] = movie_data
     
     return movies
 
 
 @st.cache_data
 def analyze_reviews(_df):
-    """分析评论数据 - 支持多语言"""
+    """分析评论数据 - 支持多语言，增强错误处理"""
     df = _df.copy()
+    
+    # 确保有content列
+    if 'content' not in df.columns:
+        df['content'] = ''
+    
     rating_col = 'rating_num' if 'rating_num' in df.columns else 'rating'
     
     if 'sentiment_label' not in df.columns:
-        if rating_col in df.columns:
-            def get_sentiment(row):
-                r = row.get(rating_col)
-                if pd.isna(r):
-                    # 尝试基于内容分析（多语言支持）
-                    content = str(row.get('content', '')).lower()
-                    pos_score = sum(SENTIMENT_LEXICON['positive'].get(w, 0) for w in content.split())
-                    neg_score = sum(abs(SENTIMENT_LEXICON['negative'].get(w, 0)) for w in content.split())
-                    
-                    if pos_score > neg_score + 0.5:
-                        return 'positive'
-                    elif neg_score > pos_score + 0.5:
-                        return 'negative'
-                    return 'neutral'
+        def get_sentiment(row):
+            # 首先尝试基于评分
+            r = row.get(rating_col) if rating_col in row.index else None
+            if pd.notna(r):
                 try:
                     r = float(r)
                     if r >= 7:
@@ -344,24 +386,30 @@ def analyze_reviews(_df):
                     else:
                         return 'neutral'
                 except:
-                    return 'neutral'
+                    pass
             
-            df['sentiment_label'] = df.apply(get_sentiment, axis=1)
-            df['sentiment_score'] = df[rating_col].apply(lambda x: float(x)/10 if pd.notna(x) else 0.5)
-        else:
-            # 纯基于内容的情感分析
-            def content_sentiment(content):
-                content = str(content).lower()
-                pos_score = sum(SENTIMENT_LEXICON['positive'].get(w, 0) for w in content.split())
-                neg_score = sum(abs(SENTIMENT_LEXICON['negative'].get(w, 0)) for w in content.split())
-                
-                if pos_score > neg_score + 0.5:
-                    return 'positive'
-                elif neg_score > pos_score + 0.5:
-                    return 'negative'
+            # 基于内容分析（多语言支持）
+            content = str(row.get('content', '')).lower()
+            if not content:
                 return 'neutral'
             
-            df['sentiment_label'] = df['content'].apply(content_sentiment) if 'content' in df.columns else 'neutral'
+            pos_score = sum(SENTIMENT_LEXICON['positive'].get(w, 0) for w in content.split())
+            neg_score = sum(abs(SENTIMENT_LEXICON['negative'].get(w, 0)) for w in content.split())
+            
+            if pos_score > neg_score + 0.5:
+                return 'positive'
+            elif neg_score > pos_score + 0.5:
+                return 'negative'
+            return 'neutral'
+        
+        df['sentiment_label'] = df.apply(get_sentiment, axis=1)
+        
+        # 计算情感分数
+        if rating_col in df.columns:
+            df['sentiment_score'] = df[rating_col].apply(
+                lambda x: float(x)/10 if pd.notna(x) else 0.5
+            )
+        else:
             df['sentiment_score'] = 0.5
     
     return df
@@ -372,13 +420,12 @@ def check_sentiment_alerts(df: pd.DataFrame, movie_title: str) -> List[Dict]:
     """检查情感预警"""
     alerts = []
     
-    if 'sentiment_label' not in df.columns:
+    if 'sentiment_label' not in df.columns or len(df) == 0:
         return alerts
     
     neg_ratio = (df['sentiment_label'] == 'negative').mean()
     pos_ratio = (df['sentiment_label'] == 'positive').mean()
     
-    # 负面率预警
     if neg_ratio > 0.3:
         alerts.append({
             'type': 'danger',
@@ -394,7 +441,6 @@ def check_sentiment_alerts(df: pd.DataFrame, movie_title: str) -> List[Dict]:
             'metric': neg_ratio
         })
     
-    # 正面率良好提示
     if pos_ratio > 0.8:
         alerts.append({
             'type': 'success',
@@ -402,28 +448,6 @@ def check_sentiment_alerts(df: pd.DataFrame, movie_title: str) -> List[Dict]:
             'message': f'《{movie_title}》正面评价率高达 {pos_ratio*100:.1f}%，市场表现良好',
             'metric': pos_ratio
         })
-    
-    # 检查最近趋势（如果有日期数据）
-    if 'date' in df.columns:
-        try:
-            df_copy = df.copy()
-            df_copy['date'] = pd.to_datetime(df_copy['date'], errors='coerce')
-            df_copy = df_copy.dropna(subset=['date'])
-            
-            if len(df_copy) > 20:
-                recent = df_copy.nlargest(20, 'date')
-                recent_neg = (recent['sentiment_label'] == 'negative').mean()
-                overall_neg = neg_ratio
-                
-                if recent_neg > overall_neg * 1.5 and recent_neg > 0.2:
-                    alerts.append({
-                        'type': 'danger',
-                        'title': '📉 近期负面趋势',
-                        'message': f'最近20条评论负面率 ({recent_neg*100:.0f}%) 显著高于整体 ({overall_neg*100:.0f}%)',
-                        'metric': recent_neg
-                    })
-        except:
-            pass
     
     return alerts
 
@@ -552,22 +576,22 @@ def create_trend_chart(df):
     rating_col = 'rating_num' if 'rating_num' in df.columns else None
     
     if 'date' not in df.columns or rating_col is None:
-        months = ['2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06']
+        months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
         ratings = [7.5, 8.0, 7.8, 8.2, 8.5, 8.3]
     else:
         df_copy = df.copy()
         df_copy['date'] = pd.to_datetime(df_copy['date'], errors='coerce')
         df_copy = df_copy.dropna(subset=['date', rating_col])
         
-        if df_copy.empty:
-            months = ['2024-01', '2024-02', '2024-03']
-            ratings = [8.0, 8.2, 8.1]
+        if df_copy.empty or len(df_copy) < 5:
+            months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+            ratings = [7.5, 8.0, 7.8, 8.2, 8.5, 8.3]
         else:
             df_copy['month'] = df_copy['date'].dt.to_period('M')
             monthly = df_copy.groupby('month')[rating_col].mean().reset_index()
             monthly['month'] = monthly['month'].astype(str)
-            months = monthly['month'].tolist()
-            ratings = monthly[rating_col].tolist()
+            months = monthly['month'].tolist()[-12:]  # 最近12个月
+            ratings = monthly[rating_col].tolist()[-12:]
     
     fig = go.Figure()
     fig.add_trace(go.Scatter(
@@ -609,7 +633,6 @@ def create_topic_bars(topic_df):
 
 def create_network_graph(df):
     """创建主题网络图"""
-    import math
     theme = get_theme()
     
     nodes = [
@@ -620,9 +643,7 @@ def create_network_graph(df):
         {'id': '节奏', 'size': 30, 'color': '#ef4444', 'x': 0.65, 'y': 0.2},
     ]
     
-    edges = [
-        (0, 1), (0, 2), (1, 3), (2, 4), (3, 4), (0, 3), (0, 4)
-    ]
+    edges = [(0, 1), (0, 2), (1, 3), (2, 4), (3, 4), (0, 3), (0, 4)]
     
     fig = go.Figure()
     
@@ -664,16 +685,19 @@ def create_3d_scatter(df):
     np.random.seed(42)
     n = min(len(df), 100)
     
-    colors = df['sentiment_label'].head(n).map({
-        'positive': '#22c55e', 'negative': '#ef4444', 'neutral': '#eab308'
-    }).fillna('#eab308')
+    if 'sentiment_label' in df.columns:
+        colors = df['sentiment_label'].head(n).map({
+            'positive': '#22c55e', 'negative': '#ef4444', 'neutral': '#eab308'
+        }).fillna('#eab308')
+    else:
+        colors = ['#eab308'] * n
     
     fig = go.Figure(data=[go.Scatter3d(
         x=np.random.randn(n) * 20 + 50,
         y=np.random.randn(n) * 20 + 50,
         z=np.random.randn(n) * 20 + 50,
         mode='markers',
-        marker=dict(size=5, color=colors.tolist(), opacity=0.7)
+        marker=dict(size=5, color=colors.tolist() if hasattr(colors, 'tolist') else colors, opacity=0.7)
     )])
     fig.update_layout(
         scene=dict(
@@ -721,11 +745,13 @@ def create_comparison_radar(movie1_data: dict, movie2_data: dict) -> go.Figure:
         scores = []
         for cat in categories:
             asp = aspect_map.get(cat, cat)
+            found = False
             for a in aspects:
                 if a['aspect'] == asp:
                     scores.append(a['positive'])
+                    found = True
                     break
-            else:
+            if not found:
                 scores.append(50)
         return scores
     
@@ -777,12 +803,12 @@ def create_comparison_bar(movie1_data: dict, movie2_data: dict) -> go.Figure:
     
     pos1 = (df1['sentiment_label'] == 'positive').mean() * 100 if 'sentiment_label' in df1.columns else 50
     neg1 = (df1['sentiment_label'] == 'negative').mean() * 100 if 'sentiment_label' in df1.columns else 20
-    avg1 = df1['rating_num'].mean() * 10 if 'rating_num' in df1.columns else 50
+    avg1 = df1['rating_num'].mean() * 10 if 'rating_num' in df1.columns and df1['rating_num'].notna().any() else 50
     cnt1 = min(len(df1) / 3, 100)
     
     pos2 = (df2['sentiment_label'] == 'positive').mean() * 100 if 'sentiment_label' in df2.columns else 50
     neg2 = (df2['sentiment_label'] == 'negative').mean() * 100 if 'sentiment_label' in df2.columns else 20
-    avg2 = df2['rating_num'].mean() * 10 if 'rating_num' in df2.columns else 50
+    avg2 = df2['rating_num'].mean() * 10 if 'rating_num' in df2.columns and df2['rating_num'].notna().any() else 50
     cnt2 = min(len(df2) / 3, 100)
     
     fig = go.Figure()
@@ -815,7 +841,7 @@ def generate_html_report(movie_info: dict, df: pd.DataFrame, aspects: list) -> s
     """生成HTML分析报告"""
     pos_ratio = (df['sentiment_label'] == 'positive').mean() if 'sentiment_label' in df.columns else 0.5
     neg_ratio = (df['sentiment_label'] == 'negative').mean() if 'sentiment_label' in df.columns else 0.2
-    avg_rating = df['rating_num'].mean() if 'rating_num' in df.columns else 0
+    avg_rating = df['rating_num'].mean() if 'rating_num' in df.columns and df['rating_num'].notna().any() else 0
     
     aspects_html = ""
     for asp in aspects:
@@ -854,71 +880,48 @@ def generate_html_report(movie_info: dict, df: pd.DataFrame, aspects: list) -> s
             .metric-box {{ background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-align: center; }}
             .metric-value {{ font-size: 2.5rem; font-weight: bold; color: #0f172a; }}
             .metric-value.positive {{ color: #22c55e; }}
-            .metric-value.negative {{ color: #ef4444; }}
-            .metric-label {{ color: #64748b; font-size: 0.875rem; margin-top: 5px; }}
             .section {{ background: white; padding: 25px; border-radius: 12px; margin: 20px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }}
-            .section h2 {{ margin-top: 0; }}
-            .footer {{ text-align: center; color: #94a3b8; font-size: 0.8rem; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e2e8f0; }}
-            ul {{ line-height: 1.8; }}
+            .footer {{ text-align: center; color: #94a3b8; font-size: 0.8rem; margin-top: 40px; }}
         </style>
     </head>
     <body>
         <div class="header">
             <h1>🎬 {movie_info.get('title', 'Unknown')}</h1>
-            <div class="subtitle">{movie_info.get('year', 'N/A')} | 导演: {movie_info.get('director', 'N/A')} | 类型: {', '.join(movie_info.get('genres', []))}</div>
+            <div class="subtitle">{movie_info.get('year', 'N/A')} | 导演: {movie_info.get('director', 'N/A')}</div>
         </div>
         
         <div class="metric-grid">
             <div class="metric-box">
                 <div class="metric-value">{len(df):,}</div>
-                <div class="metric-label">总评论数</div>
+                <div>总评论数</div>
             </div>
             <div class="metric-box">
                 <div class="metric-value positive">{pos_ratio*100:.0f}%</div>
-                <div class="metric-label">正面评价率</div>
+                <div>正面评价率</div>
             </div>
             <div class="metric-box">
                 <div class="metric-value">{avg_rating:.1f}</div>
-                <div class="metric-label">平均评分 (满分10)</div>
+                <div>平均评分</div>
             </div>
         </div>
         
         <div class="section">
-            <h2>📊 方面级情感分析 (ABSA)</h2>
-            <p style="color: #64748b; margin-bottom: 15px;">基于评论内容的多维度情感分析结果</p>
+            <h2>📊 方面级情感分析</h2>
             {aspects_html}
         </div>
         
         <div class="section">
             <h2>👍 典型正面评论</h2>
-            <ul style="color: #22c55e;">
-                {pos_reviews_html if pos_reviews_html else '<li>暂无数据</li>'}
-            </ul>
+            <ul style="color: #22c55e;">{pos_reviews_html if pos_reviews_html else '<li>暂无数据</li>'}</ul>
         </div>
         
         <div class="section">
             <h2>👎 典型负面评论</h2>
-            <ul style="color: #ef4444;">
-                {neg_reviews_html if neg_reviews_html else '<li>暂无数据</li>'}
-            </ul>
-        </div>
-        
-        <div class="section">
-            <h2>📈 AI 分析总结</h2>
-            <p>根据对 {len(df)} 条评论的分析，《{movie_info.get('title', '本片')}》整体口碑{
-                '非常出色' if pos_ratio > 0.8 else '良好' if pos_ratio > 0.6 else '中等' if pos_ratio > 0.4 else '较差'
-            }，{pos_ratio*100:.0f}% 的观众给出正面评价。</p>
-            <p><strong>主要优势：</strong>观众普遍认可的方面包括{
-                '、'.join([a['aspect'] for a in aspects if a['positive'] > 60][:3]) or '待分析'
-            }。</p>
-            <p><strong>改进空间：</strong>部分观众在{
-                '、'.join([a['aspect'] for a in aspects if a['negative'] > 40][:2]) or '暂无明显槽点'
-            }方面提出批评意见。</p>
+            <ul style="color: #ef4444;">{neg_reviews_html if neg_reviews_html else '<li>暂无数据</li>'}</ul>
         </div>
         
         <div class="footer">
             <p>📅 报告生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
-            <p>🎬 IMDb 电影评论分析系统 | Powered by Streamlit</p>
         </div>
     </body>
     </html>
@@ -931,7 +934,6 @@ def generate_excel_report(movie_info: dict, df: pd.DataFrame, aspects: list) -> 
     try:
         output = io.BytesIO()
         with pd.ExcelWriter(output, engine='openpyxl') as writer:
-            # 概览表
             summary_data = {
                 '指标': ['电影名称', '年份', '导演', '总评论数', '正面率', '负面率', '平均评分'],
                 '数值': [
@@ -941,19 +943,16 @@ def generate_excel_report(movie_info: dict, df: pd.DataFrame, aspects: list) -> 
                     len(df),
                     f"{(df['sentiment_label'] == 'positive').mean()*100:.1f}%" if 'sentiment_label' in df.columns else 'N/A',
                     f"{(df['sentiment_label'] == 'negative').mean()*100:.1f}%" if 'sentiment_label' in df.columns else 'N/A',
-                    f"{df['rating_num'].mean():.1f}" if 'rating_num' in df.columns else 'N/A'
+                    f"{df['rating_num'].mean():.1f}" if 'rating_num' in df.columns and df['rating_num'].notna().any() else 'N/A'
                 ]
             }
             pd.DataFrame(summary_data).to_excel(writer, sheet_name='概览', index=False)
+            pd.DataFrame(aspects).to_excel(writer, sheet_name='方面分析', index=False)
             
-            # 方面分析表
-            aspects_df = pd.DataFrame(aspects)
-            aspects_df.to_excel(writer, sheet_name='方面分析', index=False)
-            
-            # 评论明细表
             cols_to_export = ['content', 'sentiment_label', 'rating', 'date', 'author']
             export_cols = [c for c in cols_to_export if c in df.columns]
-            df[export_cols].to_excel(writer, sheet_name='评论明细', index=False)
+            if export_cols:
+                df[export_cols].to_excel(writer, sheet_name='评论明细', index=False)
         
         return output.getvalue()
     except Exception as e:
@@ -966,7 +965,7 @@ def get_download_link(content, filename: str, file_type: str = 'html') -> str:
     if file_type == 'html':
         b64 = base64.b64encode(content.encode('utf-8')).decode()
         mime = 'text/html'
-    else:  # excel
+    else:
         b64 = base64.b64encode(content).decode()
         mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     
@@ -1031,7 +1030,7 @@ def render_reviews(df, n=5):
         if pd.isna(sentiment):
             sentiment = 'neutral'
         
-        author = row.get('author', 'Anonymous')
+        author = row.get('author', row.get('user', 'Anonymous'))
         if pd.isna(author):
             author = 'Anonymous'
         
@@ -1067,15 +1066,13 @@ def render_wordcloud():
     html = '<div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; padding: 1rem;">'
     for word, size, color in words:
         font_size = 10 + (size - 35) * 0.3
-        opacity = 0.6 + (size - 35) * 0.006
-        html += f'<span style="font-size: {font_size}px; color: {color}; opacity: {opacity}; padding: 0.2rem 0.5rem;">{word}</span>'
+        html += f'<span style="font-size: {font_size}px; color: {color}; padding: 0.2rem 0.5rem;">{word}</span>'
     html += '</div>'
     st.markdown(html, unsafe_allow_html=True)
 
 
-# ==================== RAG可视化辅助 ====================
 def render_rag_sources(sources: list, show_all: bool = False):
-    """渲染RAG检索来源 - 思考过程可视化"""
+    """渲染RAG检索来源"""
     if not sources:
         st.info("💡 未找到相关评论证据")
         return
@@ -1084,35 +1081,26 @@ def render_rag_sources(sources: list, show_all: bool = False):
     <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); 
                 border-radius: 12px; padding: 1rem; margin-top: 1rem;">
         <div style="color: #60a5fa; font-weight: 600; margin-bottom: 0.75rem;">
-            🧠 RAG 思考过程 | 向量数据库检索到 {len(sources)} 条相关评论
+            🧠 RAG 思考过程 | 检索到 {len(sources)} 条相关评论
         </div>
     """, unsafe_allow_html=True)
     
     display_count = len(sources) if show_all else min(5, len(sources))
     
     for i, source in enumerate(sources[:display_count]):
-        similarity = source.get('similarity', source.get('score', 0.8))
+        similarity = source.get('similarity', 0.8)
         sentiment = source.get('sentiment', 'neutral')
-        content = str(source.get('content', source.get('text', '')))[:200]
+        content = str(source.get('content', ''))[:200]
         
         sentiment_color = '#22c55e' if sentiment == 'positive' else '#ef4444' if sentiment == 'negative' else '#6b7280'
-        similarity_width = int(similarity * 100)
         
         st.markdown(f"""
         <div class="rag-source">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                 <span style="color: #9ca3af; font-size: 0.75rem;">📄 评论 #{i+1}</span>
-                <div style="display: flex; gap: 0.5rem; align-items: center;">
-                    <span style="background: {sentiment_color}; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem;">
-                        {sentiment}
-                    </span>
-                    <span class="rag-source-score">相似度: {similarity:.1%}</span>
-                </div>
+                <span class="rag-source-score">相似度: {similarity:.1%}</span>
             </div>
-            <div style="color: #e5e7eb; font-size: 0.85rem; line-height: 1.5;">"{content}..."</div>
-            <div style="margin-top: 0.5rem; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
-                <div style="width: {similarity_width}%; height: 100%; background: linear-gradient(90deg, #3b82f6, #60a5fa);"></div>
-            </div>
+            <div style="color: #e5e7eb; font-size: 0.85rem;">"{content}..."</div>
         </div>
         """, unsafe_allow_html=True)
     
@@ -1122,7 +1110,6 @@ def render_rag_sources(sources: list, show_all: bool = False):
 # ==================== 页面函数 ====================
 def page_dashboard(movie_info, df):
     """仪表盘页面"""
-    # 预警检查
     alerts = check_sentiment_alerts(df, movie_info.get('title', ''))
     if alerts:
         render_alerts(alerts)
@@ -1154,16 +1141,6 @@ def page_sentiment(movie_info, df):
     with col2:
         st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 1rem;">🎯 ABSA 方面级情感</div></div>', unsafe_allow_html=True)
         render_aspect_bars(get_aspect_data(df))
-        st.markdown("""
-        <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 0.75rem;">
-            <span style="display: flex; align-items: center; gap: 0.25rem; font-size: 0.75rem; color: #9ca3af;">
-                <span style="width: 12px; height: 12px; background: #22c55e; border-radius: 2px;"></span> 正面
-            </span>
-            <span style="display: flex; align-items: center; gap: 0.25rem; font-size: 0.75rem; color: #9ca3af;">
-                <span style="width: 12px; height: 12px; background: #ef4444; border-radius: 2px;"></span> 负面
-            </span>
-        </div>
-        """, unsafe_allow_html=True)
     
     st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 1rem;">💬 精选评论</div></div>', unsafe_allow_html=True)
     render_reviews(df, n=5)
@@ -1192,33 +1169,18 @@ def page_advanced(df):
     
     st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 1rem;">🔮 3D 评论嵌入空间</div></div>', unsafe_allow_html=True)
     st.plotly_chart(create_3d_scatter(df), use_container_width=True, config={'displayModeBar': False})
-    
-    st.markdown("""
-    <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 0.5rem;">
-        <span style="display: flex; align-items: center; gap: 0.5rem; color: #9ca3af; font-size: 0.8rem;">
-            <span style="width: 12px; height: 12px; background: #22c55e; border-radius: 50%;"></span> 正面
-        </span>
-        <span style="display: flex; align-items: center; gap: 0.5rem; color: #9ca3af; font-size: 0.8rem;">
-            <span style="width: 12px; height: 12px; background: #ef4444; border-radius: 50%;"></span> 负面
-        </span>
-        <span style="display: flex; align-items: center; gap: 0.5rem; color: #9ca3af; font-size: 0.8rem;">
-            <span style="width: 12px; height: 12px; background: #eab308; border-radius: 50%;"></span> 中性
-        </span>
-    </div>
-    """, unsafe_allow_html=True)
 
 
-# ==================== AI问答相关函数 ====================
+# ==================== AI问答相关 ====================
 def simulate_rag_search(question: str, df: pd.DataFrame, n_results: int = 5) -> list:
-    """模拟RAG检索 - 基于关键词匹配"""
+    """模拟RAG检索"""
     keywords = {
-        '结局': ['ending', 'end', 'finale', 'conclusion', '结局'],
-        '演技': ['acting', 'actor', 'performance', 'cast', '演技', '表演'],
-        '剧情': ['plot', 'story', 'twist', 'narrative', '剧情', '故事'],
-        '差评': ['bad', 'terrible', 'boring', 'disappointing', '差', '烂'],
-        '优点': ['amazing', 'brilliant', 'great', 'perfect', '好', '精彩'],
-        '配乐': ['music', 'soundtrack', 'score', '配乐', '音乐'],
-        '节奏': ['pace', 'pacing', 'slow', 'fast', '节奏'],
+        '结局': ['ending', 'end', 'finale', '结局'],
+        '演技': ['acting', 'actor', 'performance', '演技'],
+        '剧情': ['plot', 'story', 'twist', '剧情'],
+        '差评': ['bad', 'terrible', 'boring', '差'],
+        '优点': ['amazing', 'great', 'perfect', '好'],
+        '配乐': ['music', 'soundtrack', '配乐'],
     }
     
     search_kws = []
@@ -1227,7 +1189,7 @@ def simulate_rag_search(question: str, df: pd.DataFrame, n_results: int = 5) -> 
             search_kws.extend(kws)
     
     if not search_kws:
-        search_kws = ['good', 'bad', 'amazing', 'terrible']
+        search_kws = ['good', 'bad', 'amazing']
     
     results = []
     for idx, row in df.iterrows():
@@ -1236,7 +1198,6 @@ def simulate_rag_search(question: str, df: pd.DataFrame, n_results: int = 5) -> 
         
         if score > 0:
             results.append({
-                'review_id': row.get('review_id', f'r_{idx}'),
                 'content': row.get('content', ''),
                 'sentiment': row.get('sentiment_label', 'neutral'),
                 'similarity': min(score * 2 + 0.5, 0.98),
@@ -1246,17 +1207,11 @@ def simulate_rag_search(question: str, df: pd.DataFrame, n_results: int = 5) -> 
     return results[:n_results]
 
 
-def call_deepseek_api(question: str, movie_info: dict, df, reviews_sample: list) -> str:
-    """调用 DeepSeek API"""
-    try:
-        from dotenv import load_dotenv
-        load_dotenv()
-    except:
-        pass
+def call_api(question: str, movie_info: dict, df, reviews_sample: list) -> str:
+    """调用API - 支持云端"""
+    api_key = get_api_key('DEEPSEEK_API_KEY')
     
-    api_key = os.getenv('DEEPSEEK_API_KEY')
-    
-    if not api_key or api_key == 'your_key_here':
+    if not api_key:
         return None
     
     try:
@@ -1264,40 +1219,18 @@ def call_deepseek_api(question: str, movie_info: dict, df, reviews_sample: list)
         client = openai.OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
         
         pos_ratio = (df['sentiment_label'] == 'positive').mean() if 'sentiment_label' in df.columns else 0.5
-        neg_ratio = (df['sentiment_label'] == 'negative').mean() if 'sentiment_label' in df.columns else 0.2
-        avg_rating = df['rating_num'].mean() if 'rating_num' in df.columns else 'N/A'
-        
-        reviews_text = "\n".join([f"- {r}" for r in reviews_sample[:10]])
-        
-        system_prompt = "你是一个专业的电影评论分析助手。基于提供的真实评论数据回答问题，用中文回答，简洁有条理。"
-        
-        user_prompt = f"""电影: {movie_info.get('title', 'Unknown')} ({movie_info.get('year', 'N/A')})
-导演: {movie_info.get('director', 'N/A')}
-
-数据统计:
-- 总评论数: {len(df)}
-- 正面评价率: {pos_ratio*100:.1f}%
-- 负面评价率: {neg_ratio*100:.1f}%
-
-部分评论样本:
-{reviews_text}
-
-用户问题: {question}"""
+        reviews_text = "\n".join([f"- {str(r)[:100]}" for r in reviews_sample[:10]])
         
         response = client.chat.completions.create(
             model="deepseek-chat",
             messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
+                {"role": "system", "content": "你是电影评论分析助手，用中文简洁回答。"},
+                {"role": "user", "content": f"电影: {movie_info.get('title')}\n正面率: {pos_ratio*100:.0f}%\n评论:\n{reviews_text}\n\n问题: {question}"}
             ],
-            max_tokens=500,
-            temperature=0.7
+            max_tokens=500
         )
-        
         return response.choices[0].message.content
-        
     except Exception as e:
-        st.warning(f"API 调用失败: {e}")
         return None
 
 
@@ -1307,67 +1240,55 @@ def get_local_response(question: str, movie_info: dict, df) -> str:
     neg_ratio = (df['sentiment_label'] == 'negative').mean() if 'sentiment_label' in df.columns else 0.2
     total = len(df)
     
-    question_lower = question.lower()
-    
-    if '结局' in question or 'ending' in question_lower:
-        return f"根据 {total} 条评论分析，观众对《{movie_info.get('title', '这部电影')}》的结局评价分化。约 {pos_ratio*100:.0f}% 给出正面评价，认为结局出人意料且富有深意。部分负面评价认为结局略显仓促。"
-    elif '演技' in question or 'acting' in question_lower:
-        return f"在演技方面，{pos_ratio*100:.0f}% 的评论持正面态度。主角表演被多次提及为'令人印象深刻'、'角色塑造立体'。"
+    if '结局' in question or 'ending' in question.lower():
+        return f"根据 {total} 条评论，{pos_ratio*100:.0f}% 观众对《{movie_info.get('title')}》的结局持正面评价。"
+    elif '演技' in question or 'acting' in question.lower():
+        return f"在演技方面，{pos_ratio*100:.0f}% 的评论持正面态度，主角表演获得广泛好评。"
     elif '差评' in question or '缺点' in question:
-        return f"主要负面评价 ({neg_ratio*100:.0f}%) 集中在：1) 节奏控制 - 部分段落略显拖沓；2) 剧情复杂度；3) 个别配角戏份不足。"
-    elif '优点' in question:
-        return f"主要优点 (来自 {pos_ratio*100:.0f}% 正面评价)：1) 剧情构思巧妙；2) 视觉效果精良；3) 演员表演出色；4) 导演{movie_info.get('director', '')}的独特风格。"
+        return f"主要负面评价 ({neg_ratio*100:.0f}%) 集中在节奏、剧情复杂度等方面。"
     else:
-        return f"根据 {total} 条评论分析：{pos_ratio*100:.0f}% 正面，{neg_ratio*100:.0f}% 负面。整体评价较高，主要赞扬创新性和执行力。"
+        return f"根据 {total} 条评论：{pos_ratio*100:.0f}% 正面，{neg_ratio*100:.0f}% 负面。整体评价良好。"
 
 
 def page_ai(movie_info, df):
-    """AI问答页面 - 含RAG思考过程可视化"""
+    """AI问答页面"""
     if 'messages' not in st.session_state:
         st.session_state.messages = [
-            {'role': 'ai', 'content': f'你好！我是电影评论分析助手。当前分析《{movie_info.get("title", "电影")}》的 {len(df)} 条评论。', 'sources': []}
+            {'role': 'ai', 'content': f'你好！当前分析《{movie_info.get("title")}》的 {len(df)} 条评论。', 'sources': []}
         ]
     
-    try:
-        from dotenv import load_dotenv
-        load_dotenv()
-    except:
-        pass
-    api_key = os.getenv('DEEPSEEK_API_KEY')
-    has_api = api_key and api_key != 'your_key_here'
+    api_key = get_api_key('DEEPSEEK_API_KEY')
+    has_api = api_key is not None
     
     col1, col2 = st.columns([4, 1])
     with col1:
         if has_api:
             st.success("🟢 DeepSeek API 已连接")
         else:
-            st.warning("🟡 未配置 API，使用本地模式")
+            st.warning("🟡 未配置 API，使用本地模式 (云端请在 Secrets 中配置 DEEPSEEK_API_KEY)")
     with col2:
-        show_rag = st.checkbox("🧠 显示RAG", value=True, help="展示AI思考过程和检索证据")
+        show_rag = st.checkbox("🧠 显示RAG", value=True)
     
     for msg in st.session_state.messages:
         if msg['role'] == 'ai':
             st.markdown(f"""
-            <div style="background: rgba(55,65,81,0.5); border: 1px solid rgba(255,255,255,0.08); 
-                        border-radius: 16px; padding: 1rem; margin-bottom: 0.75rem; max-width: 85%;">
-                <div style="font-size: 0.7rem; color: #9ca3af; margin-bottom: 0.25rem;">🤖 AI 助手 {'(DeepSeek)' if has_api else '(本地)'}</div>
+            <div style="background: rgba(55,65,81,0.5); border-radius: 16px; padding: 1rem; margin-bottom: 0.75rem; max-width: 85%;">
+                <div style="font-size: 0.7rem; color: #9ca3af;">🤖 AI 助手</div>
                 <div style="color: #e5e7eb;">{msg['content']}</div>
             </div>
             """, unsafe_allow_html=True)
             
             if show_rag and msg.get('sources'):
-                with st.expander("🧠 查看检索证据 (RAG思考过程)", expanded=False):
+                with st.expander("🧠 查看检索证据", expanded=False):
                     render_rag_sources(msg['sources'])
         else:
             st.markdown(f"""
-            <div style="background: linear-gradient(135deg, #f5c518 0%, #eab308 100%); 
-                        border-radius: 16px; padding: 1rem; margin-bottom: 0.75rem; max-width: 85%; margin-left: auto; color: #000;">
+            <div style="background: linear-gradient(135deg, #f5c518, #eab308); border-radius: 16px; padding: 1rem; margin-bottom: 0.75rem; max-width: 85%; margin-left: auto; color: #000;">
                 {msg['content']}
             </div>
             """, unsafe_allow_html=True)
     
-    st.markdown("<br>", unsafe_allow_html=True)
-    suggestions = ['大家对结局怎么看?', '主要的差评点是什么?', '分析一下演技评价', '这部电影的优点?']
+    suggestions = ['大家对结局怎么看?', '主要的差评点?', '演技评价如何?', '这部电影的优点?']
     cols = st.columns(len(suggestions))
     
     reviews_sample = df['content'].dropna().head(20).tolist() if 'content' in df.columns else []
@@ -1376,13 +1297,11 @@ def page_ai(movie_info, df):
         with cols[i]:
             if st.button(sug, key=f"sug_{i}", use_container_width=True):
                 st.session_state.messages.append({'role': 'user', 'content': sug})
-                
                 sources = simulate_rag_search(sug, df)
                 
-                with st.spinner("AI 正在思考..."):
-                    response = call_deepseek_api(sug, movie_info, df, reviews_sample)
-                    if response is None:
-                        response = get_local_response(sug, movie_info, df)
+                response = call_api(sug, movie_info, df, reviews_sample)
+                if response is None:
+                    response = get_local_response(sug, movie_info, df)
                 
                 st.session_state.messages.append({'role': 'ai', 'content': response, 'sources': sources})
                 st.rerun()
@@ -1390,47 +1309,58 @@ def page_ai(movie_info, df):
     user_input = st.chat_input("输入您的问题...")
     if user_input:
         st.session_state.messages.append({'role': 'user', 'content': user_input})
-        
         sources = simulate_rag_search(user_input, df)
         
-        with st.spinner("AI 正在思考..."):
-            response = call_deepseek_api(user_input, movie_info, df, reviews_sample)
-            if response is None:
-                response = get_local_response(user_input, movie_info, df)
+        response = call_api(user_input, movie_info, df, reviews_sample)
+        if response is None:
+            response = get_local_response(user_input, movie_info, df)
         
         st.session_state.messages.append({'role': 'ai', 'content': response, 'sources': sources})
         st.rerun()
 
 
-# ==================== 竞品对比页面 ====================
+# ==================== 🔧 竞品对比页面 (修复版) ====================
 def page_comparison(all_movies: dict):
-    """竞品双向对比页面"""
+    """竞品双向对比页面 - 修复版"""
     st.markdown("""
     <div style="text-align: center; margin-bottom: 2rem;">
         <h2 style="color: white; margin: 0;">⚔️ 竞品双向对比分析</h2>
-        <p style="color: #9ca3af;">选择两部电影，在同一张雷达图上展示多维度得分差异</p>
+        <p style="color: #9ca3af;">选择两部电影进行多维度对比</p>
     </div>
     """, unsafe_allow_html=True)
     
     if len(all_movies) < 2:
-        st.warning("⚠️ 需要至少2部电影才能进行对比分析。请在 data/ 文件夹中添加更多电影数据。")
+        st.warning("⚠️ 需要至少2部电影才能进行对比分析")
         return
     
-    movie_options = {f"{m['info'].get('title', k)} ({m['info'].get('year', 'N/A')})": k for k, m in all_movies.items()}
-    option_list = list(movie_options.keys())
+    # 构建电影选项列表
+    movie_ids = list(all_movies.keys())
+    movie_labels = []
+    for mid in movie_ids:
+        m = all_movies[mid]
+        title = m['info'].get('title', mid)
+        year = m['info'].get('year', 'N/A')
+        movie_labels.append(f"{title} ({year})")
     
     col1, col2 = st.columns(2)
+    
     with col1:
         st.markdown('<div class="comparison-card">', unsafe_allow_html=True)
-        movie1_label = st.selectbox("🎬 电影 A", option_list, index=0, key="comp_movie1")
-        movie1_id = movie_options[movie1_label]
+        # 使用 key 来避免状态问题
+        idx1 = st.selectbox("🎬 电影 A", range(len(movie_labels)), 
+                           format_func=lambda x: movie_labels[x],
+                           index=0, key="comp_a_select")
+        
+        movie1_id = movie_ids[idx1]
         movie1_data = all_movies[movie1_id]
         movie1_df = analyze_reviews(movie1_data['reviews'].copy())
         
         pos1 = (movie1_df['sentiment_label'] == 'positive').mean() if 'sentiment_label' in movie1_df.columns else 0.5
+        poster1 = movie1_data['info'].get('poster', '🎬')
+        
         st.markdown(f"""
         <div style="text-align: center; padding: 1rem;">
-            <div style="font-size: 3rem;">{MOVIE_METADATA.get(movie1_id, {}).get('poster', '🎬')}</div>
+            <div style="font-size: 3rem;">{poster1}</div>
             <div style="color: #f5c518; font-weight: bold; font-size: 1.2rem;">{movie1_data['info'].get('title', 'Movie 1')}</div>
             <div style="color: #9ca3af;">评论数: {len(movie1_df)} | 正面率: {pos1*100:.0f}%</div>
         </div>
@@ -1439,21 +1369,26 @@ def page_comparison(all_movies: dict):
     
     with col2:
         st.markdown('<div class="comparison-card">', unsafe_allow_html=True)
-        # 🔧 修复：确保第二个电影默认选择不同于第一个
-        default_idx = 1 if len(option_list) > 1 else 0
-        # 如果第一个电影选了 index 1，就让第二个默认选 index 0
-        if movie1_label == option_list[1] if len(option_list) > 1 else False:
-            default_idx = 0
+        # 默认选择第二部电影（如果有的话）
+        default_idx2 = 1 if len(movie_labels) > 1 else 0
+        # 如果第一个选了1，第二个默认选0
+        if idx1 == 1:
+            default_idx2 = 0
         
-        movie2_label = st.selectbox("🎬 电影 B", option_list, index=default_idx, key="comp_movie2")
-        movie2_id = movie_options[movie2_label]
+        idx2 = st.selectbox("🎬 电影 B", range(len(movie_labels)), 
+                           format_func=lambda x: movie_labels[x],
+                           index=default_idx2, key="comp_b_select")
+        
+        movie2_id = movie_ids[idx2]
         movie2_data = all_movies[movie2_id]
         movie2_df = analyze_reviews(movie2_data['reviews'].copy())
         
         pos2 = (movie2_df['sentiment_label'] == 'positive').mean() if 'sentiment_label' in movie2_df.columns else 0.5
+        poster2 = movie2_data['info'].get('poster', '🎬')
+        
         st.markdown(f"""
         <div style="text-align: center; padding: 1rem;">
-            <div style="font-size: 3rem;">{MOVIE_METADATA.get(movie2_id, {}).get('poster', '🎬')}</div>
+            <div style="font-size: 3rem;">{poster2}</div>
             <div style="color: #3b82f6; font-weight: bold; font-size: 1.2rem;">{movie2_data['info'].get('title', 'Movie 2')}</div>
             <div style="color: #9ca3af;">评论数: {len(movie2_df)} | 正面率: {pos2*100:.0f}%</div>
         </div>
@@ -1466,25 +1401,26 @@ def page_comparison(all_movies: dict):
     
     st.markdown("<br>", unsafe_allow_html=True)
     
+    # 雷达图
     st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 1rem; text-align: center;">📊 多维度雷达图对比</div></div>', unsafe_allow_html=True)
     
-    movie1_data_analyzed = {'info': movie1_data['info'], 'reviews': movie1_df}
-    movie2_data_analyzed = {'info': movie2_data['info'], 'reviews': movie2_df}
+    movie1_analyzed = {'info': movie1_data['info'], 'reviews': movie1_df}
+    movie2_analyzed = {'info': movie2_data['info'], 'reviews': movie2_df}
     
-    st.plotly_chart(create_comparison_radar(movie1_data_analyzed, movie2_data_analyzed), use_container_width=True, config={'displayModeBar': False})
+    st.plotly_chart(create_comparison_radar(movie1_analyzed, movie2_analyzed), use_container_width=True, config={'displayModeBar': False})
     
+    # 柱状图
     st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 1rem; text-align: center;">📈 关键指标对比</div></div>', unsafe_allow_html=True)
-    st.plotly_chart(create_comparison_bar(movie1_data_analyzed, movie2_data_analyzed), use_container_width=True, config={'displayModeBar': False})
+    st.plotly_chart(create_comparison_bar(movie1_analyzed, movie2_analyzed), use_container_width=True, config={'displayModeBar': False})
     
+    # 结论
     st.markdown(f"""
     <div class="card" style="margin-top: 1rem;">
-        <div style="color: white; font-weight: 600; margin-bottom: 1rem;">🎯 AI 对比分析结论</div>
+        <div style="color: white; font-weight: 600; margin-bottom: 1rem;">🎯 对比分析结论</div>
         <div style="color: #d1d5db; line-height: 1.8;">
             <p>• <strong style="color: #f5c518;">{movie1_data['info'].get('title', 'A')}</strong> 正面率 {pos1*100:.0f}%，
-               <strong style="color: #3b82f6;">{movie2_data['info'].get('title', 'B')}</strong> 正面率 {pos2*100:.0f}%，
-               差距 {abs(pos1 - pos2)*100:.0f} 个百分点。</p>
-            <p>• {movie1_data['info'].get('title', 'A')} {'在观众口碑上占优' if pos1 > pos2 else '在观众口碑上略逊于对手' if pos1 < pos2 else '与对手口碑持平'}。</p>
-            <p>• 两部电影的观众群体可能存在差异，对比结果仅供参考。</p>
+               <strong style="color: #3b82f6;">{movie2_data['info'].get('title', 'B')}</strong> 正面率 {pos2*100:.0f}%。</p>
+            <p>• {movie1_data['info'].get('title', 'A')} {'在口碑上占优' if pos1 > pos2 else '口碑略逊' if pos1 < pos2 else '口碑持平'}。</p>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -1495,39 +1431,28 @@ def main():
     # 加载真实数据
     all_movies = load_all_movies_from_data_dir("data")
     
-    # 如果没有数据，显示提示
     if not all_movies:
         st.warning("""
         ⚠️ **未找到电影数据**
         
         请将评论数据 CSV 文件放入 `data/` 文件夹。
         
-        文件命名格式：`tt1375666_reviews.csv`（电影ID_reviews.csv）
-        
-        CSV 文件需要包含 `content` 列（评论内容），可选包含 `rating`、`date`、`author` 等列。
-        
-        您可以使用 `selenium_scraper.py` 爬取 IMDb 评论：
-        ```
-        python selenium_scraper.py tt1375666 tt0068646
-        ```
+        文件命名格式：`tt1375666_reviews.csv`
         """)
         return
     
     # ==================== 侧边栏 ====================
     with st.sidebar:
-        theme = get_theme()
-        st.markdown(f"""
+        st.markdown("""
         <div style="text-align: center; padding: 1rem 0;">
             <div style="background: linear-gradient(135deg, #dc2626, #ef4444); width: 56px; height: 56px; border-radius: 14px; 
                         display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
                 <span style="font-size: 1.75rem;">🎬</span>
             </div>
             <h3 style="color: white; margin: 0;">IMDb 分析系统</h3>
-            <p style="color: #6b7280; font-size: 0.75rem; margin-top: 0.25rem;">电影评论深度分析</p>
         </div>
         """, unsafe_allow_html=True)
         
-        # 导航
         page = st.radio(
             "导航",
             ["📊 仪表盘", "👍 情感分析", "🔗 主题建模", "🤖 AI 问答", "⚔️ 竞品对比", "📈 高级可视化"],
@@ -1536,54 +1461,42 @@ def main():
         
         st.markdown("---")
         
-        # 🎨 主题选择
+        # 主题选择
         st.markdown("#### 🎨 界面主题")
-        new_theme = st.selectbox(
-            "选择主题",
-            list(THEMES.keys()),
-            index=list(THEMES.keys()).index(st.session_state.theme),
-            label_visibility="collapsed"
-        )
+        new_theme = st.selectbox("主题", list(THEMES.keys()), 
+                                index=list(THEMES.keys()).index(st.session_state.theme),
+                                label_visibility="collapsed")
         if new_theme != st.session_state.theme:
             st.session_state.theme = new_theme
             st.rerun()
         
         st.markdown("---")
         st.markdown("#### 📁 数据源")
+        st.success(f"✓ 已加载 {len(all_movies)} 部电影")
         
-        st.success(f"✓ 已加载 {len(all_movies)} 部电影数据")
-        
-        # 文件上传
-        st.markdown("##### 上传新数据")
+        # 上传
         uploaded = st.file_uploader("上传 CSV", type=['csv'], label_visibility="collapsed")
         if uploaded:
             try:
                 uploaded_df = pd.read_csv(uploaded, encoding='utf-8-sig')
                 movie_id = uploaded.name.split('_')[0] if uploaded.name.startswith('tt') else 'uploaded'
-                
-                if movie_id in MOVIE_METADATA:
-                    info = {'id': movie_id, **MOVIE_METADATA[movie_id]}
-                else:
-                    info = {'id': movie_id, 'title': uploaded.name.replace('.csv', ''), 'year': None, 'rating': None, 'genres': [], 'director': None, 'poster': '📄'}
-                
+                info = {'id': movie_id, **MOVIE_METADATA.get(movie_id, {'title': uploaded.name, 'year': None, 'poster': '📄'})}
                 all_movies['uploaded'] = {'info': info, 'reviews': uploaded_df}
-                st.success(f"✓ 上传成功: {len(uploaded_df)} 条")
+                st.success(f"✓ 上传 {len(uploaded_df)} 条")
             except Exception as e:
                 st.error(f"上传失败: {e}")
         
-        # 报告导出功能
+        # 报告导出
         st.markdown("---")
-        st.markdown("#### 📄 一键导出报告")
-        
+        st.markdown("#### 📄 导出报告")
         report_format = st.radio("格式", ["HTML", "Excel"], horizontal=True, label_visibility="collapsed")
         
-        if st.button("🎯 生成分析报告", use_container_width=True, type="primary"):
+        if st.button("🎯 生成报告", use_container_width=True, type="primary"):
             st.session_state['generate_report'] = True
             st.session_state['report_format'] = report_format
     
     # ==================== 主内容区 ====================
     
-    # 竞品对比页面不需要单独选择电影
     if page == "⚔️ 竞品对比":
         page_comparison(all_movies)
         return
@@ -1591,10 +1504,8 @@ def main():
     # 电影选择
     col1, col2, col3 = st.columns([3, 2, 1])
     page_titles = {
-        "📊 仪表盘": "仪表盘", 
-        "👍 情感分析": "情感分析", 
-        "🔗 主题建模": "主题建模", 
-        "🤖 AI 问答": "AI 问答", 
+        "📊 仪表盘": "仪表盘", "👍 情感分析": "情感分析", 
+        "🔗 主题建模": "主题建模", "🤖 AI 问答": "AI 问答", 
         "📈 高级可视化": "高级可视化"
     }
     
@@ -1605,9 +1516,9 @@ def main():
         movie_options = {}
         for mid, m in all_movies.items():
             info = m['info']
-            year = info.get('year', 'N/A')
             title = info.get('title', mid)
-            poster = MOVIE_METADATA.get(mid, {}).get('poster', info.get('poster', '🎬'))
+            year = info.get('year', 'N/A')
+            poster = info.get('poster', '🎬')
             label = f"{poster} {title} ({year})"
             movie_options[label] = mid
         
@@ -1615,7 +1526,7 @@ def main():
         movie_id = movie_options[selected]
     
     with col3:
-        if st.button("▶️ 运行分析", type="primary", use_container_width=True):
+        if st.button("▶️ 运行", type="primary", use_container_width=True):
             st.cache_data.clear()
             st.rerun()
     
@@ -1625,27 +1536,25 @@ def main():
     movie_info = movie_data['info']
     df = analyze_reviews(movie_data['reviews'].copy())
     
-    # 报告生成处理
+    # 报告生成
     if st.session_state.get('generate_report', False):
         st.session_state['generate_report'] = False
         
-        with st.spinner("📄 正在生成分析报告..."):
+        with st.spinner("📄 生成报告..."):
             aspects = get_aspect_data(df)
             report_format = st.session_state.get('report_format', 'HTML')
             
             if report_format == 'HTML':
-                html_report = generate_html_report(movie_info, df, aspects)
-                filename = f"report_{movie_info.get('title', 'movie').replace(' ', '_')}_{datetime.now().strftime('%Y%m%d')}.html"
-                st.success("✅ HTML 报告生成成功！")
-                st.markdown(get_download_link(html_report, filename, 'html'), unsafe_allow_html=True)
+                report = generate_html_report(movie_info, df, aspects)
+                filename = f"report_{movie_info.get('title', 'movie').replace(' ', '_')}.html"
+                st.markdown(get_download_link(report, filename, 'html'), unsafe_allow_html=True)
             else:
-                excel_report = generate_excel_report(movie_info, df, aspects)
-                if excel_report:
-                    filename = f"report_{movie_info.get('title', 'movie').replace(' ', '_')}_{datetime.now().strftime('%Y%m%d')}.xlsx"
-                    st.success("✅ Excel 报告生成成功！")
-                    st.markdown(get_download_link(excel_report, filename, 'excel'), unsafe_allow_html=True)
+                report = generate_excel_report(movie_info, df, aspects)
+                if report:
+                    filename = f"report_{movie_info.get('title', 'movie').replace(' ', '_')}.xlsx"
+                    st.markdown(get_download_link(report, filename, 'excel'), unsafe_allow_html=True)
         
-        st.markdown("<br>", unsafe_allow_html=True)
+        st.success("✅ 报告生成成功！")
     
     # 渲染页面
     if page == "📊 仪表盘":
