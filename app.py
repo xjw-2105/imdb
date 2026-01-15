@@ -88,28 +88,28 @@ def apply_theme_css():
         }}
         #MainMenu, footer, header {{visibility: hidden;}}
         
-        /* 侧边栏样式 */
+        /* 强制显示侧边栏 */
         section[data-testid="stSidebar"] {{
             background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%) !important;
             border-right: 3px solid {theme['primary']} !important;
-            min-width: 280px !important;
-        }}
-        section[data-testid="stSidebar"] > div {{
-            padding-top: 1rem;
+            min-width: 300px !important;
+            width: 300px !important;
+            transform: translateX(0) !important;
+            visibility: visible !important;
+            display: block !important;
         }}
         
-        /* 侧边栏展开按钮 - 多种选择器确保兼容 */
-        button[kind="header"], 
-        [data-testid="collapsedControl"],
-        [data-testid="stSidebarCollapseButton"],
-        .css-1rs6os {{
-            background: {theme['primary']} !important;
-            color: #000 !important;
-            border-radius: 0 12px 12px 0 !important;
-            min-width: 40px !important;
-            min-height: 100px !important;
-            border: none !important;
-            left: 0 !important;
+        /* 确保侧边栏内容可见 */
+        section[data-testid="stSidebar"] > div {{
+            padding: 1rem;
+            display: block !important;
+            visibility: visible !important;
+        }}
+        
+        /* 隐藏收起按钮，防止用户收起 */
+        button[kind="header"],
+        [data-testid="stSidebarCollapseButton"] {{
+            display: none !important;
         }}
         
         .metric-card {{
@@ -1194,7 +1194,7 @@ def page_dashboard(movie_info, df):
         st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 1rem;">📈 评分趋势</div></div>', unsafe_allow_html=True)
         try:
             fig = create_trend_chart(df)
-            st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+            st.plotly_chart(fig, width='stretch', config={'displayModeBar': False})
         except Exception as e:
             st.info("📊 趋势图暂无数据")
     
@@ -1206,7 +1206,7 @@ def page_dashboard(movie_info, df):
                 pos_ratio = float((df['sentiment_label'] == 'positive').mean())
             if pd.isna(pos_ratio):
                 pos_ratio = 0.5
-            st.plotly_chart(create_sentiment_donut(pos_ratio), use_container_width=True, config={'displayModeBar': False})
+            st.plotly_chart(create_sentiment_donut(pos_ratio), width='stretch', config={'displayModeBar': False})
         except Exception as e:
             st.info("📊 情感分布暂无数据")
 
@@ -1219,7 +1219,7 @@ def page_sentiment(movie_info, df):
     
     with col1:
         st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 1rem;">📊 整体情感分布</div></div>', unsafe_allow_html=True)
-        st.plotly_chart(create_sentiment_donut(pos_ratio), use_container_width=True, config={'displayModeBar': False})
+        st.plotly_chart(create_sentiment_donut(pos_ratio), width='stretch', config={'displayModeBar': False})
     
     with col2:
         st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 1rem;">🎯 ABSA 方面级情感</div></div>', unsafe_allow_html=True)
@@ -1235,23 +1235,23 @@ def page_topics(df):
     
     with col1:
         st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 1rem;">📊 Top 讨论主题</div></div>', unsafe_allow_html=True)
-        st.plotly_chart(create_topic_bars(get_topic_data(df)), use_container_width=True, config={'displayModeBar': False})
+        st.plotly_chart(create_topic_bars(get_topic_data(df)), width='stretch', config={'displayModeBar': False})
     
     with col2:
         st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 1rem;">☁️ 高频词云</div></div>', unsafe_allow_html=True)
         render_wordcloud()
     
     st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 1rem;">🔗 主题网络关系图</div></div>', unsafe_allow_html=True)
-    st.plotly_chart(create_network_graph(df), use_container_width=True, config={'displayModeBar': False})
+    st.plotly_chart(create_network_graph(df), width='stretch', config={'displayModeBar': False})
 
 
 def page_advanced(df):
     """高级可视化页面"""
     st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 0.5rem;">🌊 流向分析 (Sankey)</div></div>', unsafe_allow_html=True)
-    st.plotly_chart(create_sankey(), use_container_width=True, config={'displayModeBar': False})
+    st.plotly_chart(create_sankey(), width='stretch', config={'displayModeBar': False})
     
     st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 1rem;">🔮 3D 评论嵌入空间</div></div>', unsafe_allow_html=True)
-    st.plotly_chart(create_3d_scatter(df), use_container_width=True, config={'displayModeBar': False})
+    st.plotly_chart(create_3d_scatter(df), width='stretch', config={'displayModeBar': False})
 
 
 # ==================== AI问答相关 ====================
@@ -1378,7 +1378,7 @@ def page_ai(movie_info, df):
     
     for i, sug in enumerate(suggestions):
         with cols[i]:
-            if st.button(sug, key=f"sug_{i}", use_container_width=True):
+            if st.button(sug, key=f"sug_{i}", width='stretch'):
                 st.session_state.messages.append({'role': 'user', 'content': sug})
                 sources = simulate_rag_search(sug, df)
                 
@@ -1490,11 +1490,11 @@ def page_comparison(all_movies: dict):
     movie1_analyzed = {'info': movie1_data['info'], 'reviews': movie1_df}
     movie2_analyzed = {'info': movie2_data['info'], 'reviews': movie2_df}
     
-    st.plotly_chart(create_comparison_radar(movie1_analyzed, movie2_analyzed), use_container_width=True, config={'displayModeBar': False})
+    st.plotly_chart(create_comparison_radar(movie1_analyzed, movie2_analyzed), width='stretch', config={'displayModeBar': False})
     
     # 柱状图
     st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 1rem; text-align: center;">📈 关键指标对比</div></div>', unsafe_allow_html=True)
-    st.plotly_chart(create_comparison_bar(movie1_analyzed, movie2_analyzed), use_container_width=True, config={'displayModeBar': False})
+    st.plotly_chart(create_comparison_bar(movie1_analyzed, movie2_analyzed), width='stretch', config={'displayModeBar': False})
     
     # 结论
     st.markdown(f"""
@@ -1574,7 +1574,7 @@ def main():
         st.markdown("#### 📄 导出报告")
         report_format = st.radio("格式", ["HTML", "Excel"], horizontal=True, label_visibility="collapsed")
         
-        if st.button("🎯 生成报告", use_container_width=True, type="primary"):
+        if st.button("🎯 生成报告", width='stretch', type="primary"):
             st.session_state['generate_report'] = True
             st.session_state['report_format'] = report_format
     
@@ -1609,7 +1609,7 @@ def main():
         movie_id = movie_options[selected]
     
     with col3:
-        if st.button("▶️ 运行", type="primary", use_container_width=True):
+        if st.button("▶️ 运行", type="primary", width='stretch'):
             st.cache_data.clear()
             st.rerun()
     
