@@ -1641,37 +1641,47 @@ def page_comparison(all_movies: dict):
         st.warning("⚠️ 需要至少2部电影才能进行对比分析")
         return
     
-    # 构建电影选项列表
-    movie_ids = list(all_movies.keys())
-    movie_labels = []
+    # 构建电影选项列表 - 使用有序列表确保一致性
+    movie_ids = sorted(list(all_movies.keys()))  # 排序确保顺序一致
+    movie_id_to_label = {}
+    movie_label_to_id = {}
+    
     for mid in movie_ids:
         m = all_movies[mid]
         title = m['info'].get('title', mid)
         year = m['info'].get('year', 'N/A')
-        movie_labels.append(f"{title} ({year})")
+        label = f"{title} ({year})"
+        movie_id_to_label[mid] = label
+        movie_label_to_id[label] = mid
     
-    # 初始化 session_state 中的选择状态
-    if 'comparison_movie_a' not in st.session_state:
-        st.session_state.comparison_movie_a = 0
-    if 'comparison_movie_b' not in st.session_state:
-        st.session_state.comparison_movie_b = min(1, len(movie_ids) - 1)
+    movie_labels = [movie_id_to_label[mid] for mid in movie_ids]
+    
+    # 初始化 session_state - 存储电影ID而非索引
+    if 'comp_movie_a_id' not in st.session_state or st.session_state.comp_movie_a_id not in movie_ids:
+        st.session_state.comp_movie_a_id = movie_ids[0]
+    if 'comp_movie_b_id' not in st.session_state or st.session_state.comp_movie_b_id not in movie_ids:
+        st.session_state.comp_movie_b_id = movie_ids[1] if len(movie_ids) > 1 else movie_ids[0]
     
     col1, col2 = st.columns(2)
     
     with col1:
         st.markdown('<p style="color: #f5c518; font-weight: 600; margin-bottom: 0.5rem;">🎬 电影 A</p>', unsafe_allow_html=True)
+        
+        # 获取当前选中电影的索引
+        current_idx_a = movie_ids.index(st.session_state.comp_movie_a_id) if st.session_state.comp_movie_a_id in movie_ids else 0
+        
         selected_a = st.selectbox(
             "电影 A", 
             movie_labels,
-            index=st.session_state.comparison_movie_a,
-            key="comp_a_select",
+            index=current_idx_a,
+            key="comp_select_a",
             label_visibility="collapsed"
         )
-        # 更新 session_state
-        st.session_state.comparison_movie_a = movie_labels.index(selected_a)
-        idx1 = st.session_state.comparison_movie_a
         
-        movie1_id = movie_ids[idx1]
+        # 更新 session_state 为电影ID
+        st.session_state.comp_movie_a_id = movie_label_to_id[selected_a]
+        movie1_id = st.session_state.comp_movie_a_id
+        
         movie1_data = all_movies[movie1_id]
         movie1_df = analyze_reviews(movie1_data['reviews'].copy())
         
@@ -1688,18 +1698,22 @@ def page_comparison(all_movies: dict):
     
     with col2:
         st.markdown('<p style="color: #3b82f6; font-weight: 600; margin-bottom: 0.5rem;">🎬 电影 B</p>', unsafe_allow_html=True)
+        
+        # 获取当前选中电影的索引
+        current_idx_b = movie_ids.index(st.session_state.comp_movie_b_id) if st.session_state.comp_movie_b_id in movie_ids else (1 if len(movie_ids) > 1 else 0)
+        
         selected_b = st.selectbox(
             "电影 B", 
             movie_labels,
-            index=st.session_state.comparison_movie_b,
-            key="comp_b_select",
+            index=current_idx_b,
+            key="comp_select_b",
             label_visibility="collapsed"
         )
-        # 更新 session_state
-        st.session_state.comparison_movie_b = movie_labels.index(selected_b)
-        idx2 = st.session_state.comparison_movie_b
         
-        movie2_id = movie_ids[idx2]
+        # 更新 session_state 为电影ID
+        st.session_state.comp_movie_b_id = movie_label_to_id[selected_b]
+        movie2_id = st.session_state.comp_movie_b_id
+        
         movie2_data = all_movies[movie2_id]
         movie2_df = analyze_reviews(movie2_data['reviews'].copy())
         
@@ -1726,11 +1740,11 @@ def page_comparison(all_movies: dict):
     movie1_analyzed = {'info': movie1_data['info'], 'reviews': movie1_df}
     movie2_analyzed = {'info': movie2_data['info'], 'reviews': movie2_df}
     
-    st.plotly_chart(create_comparison_radar(movie1_analyzed, movie2_analyzed), use_container_width=True, config={'displayModeBar': False})
+    st.plotly_chart(create_comparison_radar(movie1_analyzed, movie2_analyzed), width='stretch', config={'displayModeBar': False})
     
     # 柱状图
     st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 1rem; text-align: center;">📈 关键指标对比</div></div>', unsafe_allow_html=True)
-    st.plotly_chart(create_comparison_bar(movie1_analyzed, movie2_analyzed), use_container_width=True, config={'displayModeBar': False})
+    st.plotly_chart(create_comparison_bar(movie1_analyzed, movie2_analyzed), width='stretch', config={'displayModeBar': False})
     
     # 结论
     st.markdown(f"""
