@@ -611,9 +611,14 @@ def load_all_movies_from_data_dir(data_dir: str = "data") -> dict:
 
 
 @st.cache_data
-def analyze_reviews(_df):
-    """分析评论数据 - 支持多语言，增强错误处理"""
-    df = _df.copy()
+def analyze_reviews(df_input, movie_id: str = "default"):
+    """分析评论数据 - 支持多语言，增强错误处理
+    
+    Args:
+        df_input: 评论数据DataFrame
+        movie_id: 电影ID，用于缓存区分
+    """
+    df = df_input.copy()
     
     # 确保有content列
     if 'content' not in df.columns:
@@ -1683,7 +1688,7 @@ def page_comparison(all_movies: dict):
         movie1_id = st.session_state.comp_movie_a_id
         
         movie1_data = all_movies[movie1_id]
-        movie1_df = analyze_reviews(movie1_data['reviews'].copy())
+        movie1_df = analyze_reviews(movie1_data['reviews'].copy(), movie_id=movie1_id)
         
         pos1 = (movie1_df['sentiment_label'] == 'positive').mean() if 'sentiment_label' in movie1_df.columns else 0.5
         poster1 = movie1_data['info'].get('poster', '🎬')
@@ -1715,7 +1720,7 @@ def page_comparison(all_movies: dict):
         movie2_id = st.session_state.comp_movie_b_id
         
         movie2_data = all_movies[movie2_id]
-        movie2_df = analyze_reviews(movie2_data['reviews'].copy())
+        movie2_df = analyze_reviews(movie2_data['reviews'].copy(), movie_id=movie2_id)
         
         pos2 = (movie2_df['sentiment_label'] == 'positive').mean() if 'sentiment_label' in movie2_df.columns else 0.5
         poster2 = movie2_data['info'].get('poster', '🎬')
@@ -1867,7 +1872,7 @@ def main():
     
     movie_data = all_movies[movie_id]
     movie_info = movie_data['info']
-    df = analyze_reviews(movie_data['reviews'].copy())
+    df = analyze_reviews(movie_data['reviews'].copy(), movie_id=movie_id)
     
     # 报告生成
     if st.session_state.get('generate_report', False):
