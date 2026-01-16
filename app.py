@@ -191,9 +191,10 @@ def apply_theme_css():
         
         /* 下拉框样式美化 */
         section[data-testid="stSidebar"] [data-testid="stSelectbox"] {{
-            background: rgba(30, 40, 60, 0.5) !important;
+            background: rgba(20, 30, 50, 0.8) !important;
             border-radius: 10px !important;
             padding: 0.3rem !important;
+            border: 1px solid rgba(255,255,255,0.15) !important;
         }}
         
         section[data-testid="stSidebar"] [data-testid="stSelectbox"] > div {{
@@ -204,17 +205,86 @@ def apply_theme_css():
             color: #e6edf3 !important;
         }}
         
-        /* 文件上传组件美化 */
-        section[data-testid="stSidebar"] [data-testid="stFileUploader"] {{
-            background: rgba(30, 40, 60, 0.4) !important;
-            border: 1px dashed rgba(255,255,255,0.2) !important;
+        /* 下拉框内部选中文字 - 深色背景白字 */
+        section[data-testid="stSidebar"] [data-testid="stSelectbox"] [data-baseweb="select"] {{
+            background: rgba(30, 40, 60, 0.9) !important;
+            border: 1px solid rgba(255,255,255,0.2) !important;
+            border-radius: 8px !important;
+        }}
+        
+        section[data-testid="stSidebar"] [data-testid="stSelectbox"] [data-baseweb="select"] > div {{
+            background: transparent !important;
+            color: #ffffff !important;
+        }}
+        
+        section[data-testid="stSidebar"] [data-testid="stSelectbox"] [data-baseweb="select"] span {{
+            color: #ffffff !important;
+        }}
+        
+        /* 下拉菜单弹出层样式 */
+        [data-baseweb="popover"] {{
+            background: #1a1f2e !important;
+            border: 1px solid rgba(255,255,255,0.15) !important;
             border-radius: 10px !important;
-            padding: 0.5rem !important;
+        }}
+        
+        [data-baseweb="popover"] ul {{
+            background: #1a1f2e !important;
+        }}
+        
+        [data-baseweb="popover"] li {{
+            background: transparent !important;
+            color: #e6edf3 !important;
+        }}
+        
+        [data-baseweb="popover"] li:hover {{
+            background: rgba(245, 197, 24, 0.15) !important;
+        }}
+        
+        /* 文件上传组件美化 - 深色背景 */
+        section[data-testid="stSidebar"] [data-testid="stFileUploader"] {{
+            background: rgba(20, 30, 50, 0.8) !important;
+            border: 2px dashed {theme['primary']}66 !important;
+            border-radius: 12px !important;
+            padding: 0.75rem !important;
         }}
         
         section[data-testid="stSidebar"] [data-testid="stFileUploader"]:hover {{
             border-color: {theme['primary']} !important;
-            background: rgba(30, 40, 60, 0.6) !important;
+            background: rgba(30, 40, 60, 0.9) !important;
+        }}
+        
+        /* 文件上传内部文字 */
+        section[data-testid="stSidebar"] [data-testid="stFileUploader"] section {{
+            background: transparent !important;
+        }}
+        
+        section[data-testid="stSidebar"] [data-testid="stFileUploader"] span,
+        section[data-testid="stSidebar"] [data-testid="stFileUploader"] small,
+        section[data-testid="stSidebar"] [data-testid="stFileUploader"] p {{
+            color: #e6edf3 !important;
+        }}
+        
+        section[data-testid="stSidebar"] [data-testid="stFileUploader"] button {{
+            background: rgba(245, 197, 24, 0.2) !important;
+            border: 1px solid {theme['primary']}66 !important;
+            color: #ffffff !important;
+            border-radius: 6px !important;
+        }}
+        
+        section[data-testid="stSidebar"] [data-testid="stFileUploader"] button:hover {{
+            background: rgba(245, 197, 24, 0.35) !important;
+            border-color: {theme['primary']} !important;
+        }}
+        
+        /* 文件上传拖放区域 */
+        section[data-testid="stSidebar"] [data-testid="stFileUploaderDropzone"] {{
+            background: rgba(30, 40, 60, 0.5) !important;
+            border-radius: 8px !important;
+        }}
+        
+        section[data-testid="stSidebar"] [data-testid="stFileUploaderDropzone"] * {{
+            color: #b0b8c4 !important;
         }}
         
         /* 按钮美化 */
@@ -1580,13 +1650,26 @@ def page_comparison(all_movies: dict):
         year = m['info'].get('year', 'N/A')
         movie_labels.append(f"{title} ({year})")
     
+    # 初始化 session_state 中的选择状态
+    if 'comparison_movie_a' not in st.session_state:
+        st.session_state.comparison_movie_a = 0
+    if 'comparison_movie_b' not in st.session_state:
+        st.session_state.comparison_movie_b = min(1, len(movie_ids) - 1)
+    
     col1, col2 = st.columns(2)
     
     with col1:
-        # 使用 key 来避免状态问题
-        idx1 = st.selectbox("🎬 电影 A", range(len(movie_labels)), 
-                           format_func=lambda x: movie_labels[x],
-                           index=0, key="comp_a_select")
+        st.markdown('<p style="color: #f5c518; font-weight: 600; margin-bottom: 0.5rem;">🎬 电影 A</p>', unsafe_allow_html=True)
+        selected_a = st.selectbox(
+            "电影 A", 
+            movie_labels,
+            index=st.session_state.comparison_movie_a,
+            key="comp_a_select",
+            label_visibility="collapsed"
+        )
+        # 更新 session_state
+        st.session_state.comparison_movie_a = movie_labels.index(selected_a)
+        idx1 = st.session_state.comparison_movie_a
         
         movie1_id = movie_ids[idx1]
         movie1_data = all_movies[movie1_id]
@@ -1604,15 +1687,17 @@ def page_comparison(all_movies: dict):
         """, unsafe_allow_html=True)
     
     with col2:
-        # 默认选择第二部电影（如果有的话）
-        default_idx2 = 1 if len(movie_labels) > 1 else 0
-        # 如果第一个选了1，第二个默认选0
-        if idx1 == 1:
-            default_idx2 = 0
-        
-        idx2 = st.selectbox("🎬 电影 B", range(len(movie_labels)), 
-                           format_func=lambda x: movie_labels[x],
-                           index=default_idx2, key="comp_b_select")
+        st.markdown('<p style="color: #3b82f6; font-weight: 600; margin-bottom: 0.5rem;">🎬 电影 B</p>', unsafe_allow_html=True)
+        selected_b = st.selectbox(
+            "电影 B", 
+            movie_labels,
+            index=st.session_state.comparison_movie_b,
+            key="comp_b_select",
+            label_visibility="collapsed"
+        )
+        # 更新 session_state
+        st.session_state.comparison_movie_b = movie_labels.index(selected_b)
+        idx2 = st.session_state.comparison_movie_b
         
         movie2_id = movie_ids[idx2]
         movie2_data = all_movies[movie2_id]
@@ -1641,11 +1726,11 @@ def page_comparison(all_movies: dict):
     movie1_analyzed = {'info': movie1_data['info'], 'reviews': movie1_df}
     movie2_analyzed = {'info': movie2_data['info'], 'reviews': movie2_df}
     
-    st.plotly_chart(create_comparison_radar(movie1_analyzed, movie2_analyzed), width='stretch', config={'displayModeBar': False})
+    st.plotly_chart(create_comparison_radar(movie1_analyzed, movie2_analyzed), use_container_width=True, config={'displayModeBar': False})
     
     # 柱状图
     st.markdown('<div class="card"><div style="color: white; font-weight: 600; margin-bottom: 1rem; text-align: center;">📈 关键指标对比</div></div>', unsafe_allow_html=True)
-    st.plotly_chart(create_comparison_bar(movie1_analyzed, movie2_analyzed), width='stretch', config={'displayModeBar': False})
+    st.plotly_chart(create_comparison_bar(movie1_analyzed, movie2_analyzed), use_container_width=True, config={'displayModeBar': False})
     
     # 结论
     st.markdown(f"""
