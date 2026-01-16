@@ -88,52 +88,184 @@ def apply_theme_css():
         }}
         #MainMenu, footer, header {{visibility: hidden;}}
         
-        /* 侧边栏样式 - 修复可见性问题 */
-section[data-testid="stSidebar"] {{
-    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%) !important;
-    border-right: 3px solid {theme['primary']} !important;
-    min-width: 280px !important;
-    overflow-y: auto !important;  /* 确保可滚动 */
-}}
-
-/* 侧边栏内容容器 - 关键修复 */
-section[data-testid="stSidebar"] > div:first-child {{
-    background: transparent !important;
-    padding-top: 1rem !important;
-}}
-
-section[data-testid="stSidebar"] [data-testid="stSidebarContent"] {{
-    background: transparent !important;
-}}
-
-/* 强制所有文字白色可见 */
-section[data-testid="stSidebar"],
-section[data-testid="stSidebar"] * {{
-    color: #ffffff !important;
-}}
-
-/* Radio 按钮标签 */
-section[data-testid="stSidebar"] [data-testid="stWidgetLabel"],
-section[data-testid="stSidebar"] .stRadio label {{
-    color: #ffffff !important;
-    font-weight: 500 !important;
-}}
-
-/* 下拉框选项 */
-section[data-testid="stSidebar"] [data-baseweb="select"] {{
-    background: rgba(255,255,255,0.1) !important;
-}}
-
-section[data-testid="stSidebar"] [data-baseweb="select"] * {{
-    color: #ffffff !important;
-}}
-
-/* 文件上传器 */
-section[data-testid="stSidebar"] [data-testid="stFileUploader"] {{
-    background: rgba(255,255,255,0.05) !important;
-    border-radius: 8px !important;
-}}
-
+        /* ============================================ */
+        /* 侧边栏强制显示 - 核心设置                   */
+        /* ============================================ */
+        
+        /* 1. 强制侧边栏始终展开，禁止收起 */
+        section[data-testid="stSidebar"] {{
+            background: linear-gradient(180deg, #0d1117 0%, #161b22 50%, #1a1f2e 100%) !important;
+            border-right: 2px solid {theme['primary']} !important;
+            min-width: 300px !important;
+            width: 300px !important;
+            max-width: 300px !important;
+            transform: translateX(0) !important;
+            visibility: visible !important;
+            position: relative !important;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.3) !important;
+        }}
+        
+        /* 2. 隐藏侧边栏收起/展开按钮 */
+        button[data-testid="stSidebarCollapseButton"],
+        button[data-testid="baseButton-headerNoPadding"],
+        [data-testid="collapsedControl"],
+        .st-emotion-cache-1dp5vir,
+        .st-emotion-cache-1egp75f,
+        div[data-testid="stSidebarCollapsedControl"] {{
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }}
+        
+        /* 3. 确保侧边栏内容区域始终可见 */
+        section[data-testid="stSidebar"] > div {{
+            width: 100% !important;
+            padding: 1.5rem 1rem !important;
+        }}
+        
+        /* 4. 主内容区域适配侧边栏宽度 */
+        .main .block-container {{
+            margin-left: 0 !important;
+            max-width: calc(100% - 20px) !important;
+        }}
+        
+        /* ============================================ */
+        /* 侧边栏美化样式                              */
+        /* ============================================ */
+        
+        /* 侧边栏所有文字白色 */
+        section[data-testid="stSidebar"] * {{
+            color: #e6edf3 !important;
+        }}
+        
+        /* 标题样式 */
+        section[data-testid="stSidebar"] h1,
+        section[data-testid="stSidebar"] h2,
+        section[data-testid="stSidebar"] h3,
+        section[data-testid="stSidebar"] h4 {{
+            color: #ffffff !important;
+            font-weight: 600 !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+        }}
+        
+        section[data-testid="stSidebar"] p,
+        section[data-testid="stSidebar"] span,
+        section[data-testid="stSidebar"] label {{
+            color: #e6edf3 !important;
+        }}
+        
+        section[data-testid="stSidebar"] .stMarkdown {{
+            color: #e6edf3 !important;
+        }}
+        
+        /* Radio按钮样式美化 */
+        section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] {{
+            color: #e6edf3 !important;
+        }}
+        
+        section[data-testid="stSidebar"] [role="radiogroup"] {{
+            background: rgba(30, 40, 60, 0.5) !important;
+            border-radius: 12px !important;
+            padding: 0.5rem !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+        }}
+        
+        section[data-testid="stSidebar"] [role="radiogroup"] label {{
+            color: #e6edf3 !important;
+            padding: 0.6rem 1rem !important;
+            border-radius: 8px !important;
+            margin: 2px 0 !important;
+            transition: all 0.2s ease !important;
+        }}
+        
+        section[data-testid="stSidebar"] [role="radiogroup"] label:hover {{
+            background: rgba({int(theme['primary'][1:3], 16)}, {int(theme['primary'][3:5], 16)}, {int(theme['primary'][5:7], 16)}, 0.15) !important;
+        }}
+        
+        section[data-testid="stSidebar"] [role="radiogroup"] label[data-checked="true"],
+        section[data-testid="stSidebar"] [role="radiogroup"] [aria-checked="true"] {{
+            background: linear-gradient(135deg, {theme['primary']}22 0%, {theme['primary']}33 100%) !important;
+            border-left: 3px solid {theme['primary']} !important;
+        }}
+        
+        /* 下拉框样式美化 */
+        section[data-testid="stSidebar"] [data-testid="stSelectbox"] {{
+            background: rgba(30, 40, 60, 0.5) !important;
+            border-radius: 10px !important;
+            padding: 0.3rem !important;
+        }}
+        
+        section[data-testid="stSidebar"] [data-testid="stSelectbox"] > div {{
+            background: transparent !important;
+        }}
+        
+        section[data-testid="stSidebar"] [data-testid="stSelectbox"] label {{
+            color: #e6edf3 !important;
+        }}
+        
+        /* 文件上传组件美化 */
+        section[data-testid="stSidebar"] [data-testid="stFileUploader"] {{
+            background: rgba(30, 40, 60, 0.4) !important;
+            border: 1px dashed rgba(255,255,255,0.2) !important;
+            border-radius: 10px !important;
+            padding: 0.5rem !important;
+        }}
+        
+        section[data-testid="stSidebar"] [data-testid="stFileUploader"]:hover {{
+            border-color: {theme['primary']} !important;
+            background: rgba(30, 40, 60, 0.6) !important;
+        }}
+        
+        /* 按钮美化 */
+        section[data-testid="stSidebar"] button[kind="primary"] {{
+            background: linear-gradient(135deg, {theme['primary']} 0%, {theme['secondary']} 100%) !important;
+            border: none !important;
+            color: #000000 !important;
+            font-weight: 600 !important;
+            border-radius: 10px !important;
+            padding: 0.6rem 1.2rem !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 4px 15px rgba({int(theme['primary'][1:3], 16)}, {int(theme['primary'][3:5], 16)}, {int(theme['primary'][5:7], 16)}, 0.3) !important;
+        }}
+        
+        section[data-testid="stSidebar"] button[kind="primary"]:hover {{
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba({int(theme['primary'][1:3], 16)}, {int(theme['primary'][3:5], 16)}, {int(theme['primary'][5:7], 16)}, 0.5) !important;
+        }}
+        
+        /* 分割线美化 */
+        section[data-testid="stSidebar"] hr {{
+            border: none !important;
+            height: 1px !important;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%) !important;
+            margin: 1.2rem 0 !important;
+        }}
+        
+        /* 成功提示美化 */
+        section[data-testid="stSidebar"] [data-testid="stAlert"] {{
+            background: rgba(34, 197, 94, 0.15) !important;
+            border: 1px solid rgba(34, 197, 94, 0.3) !important;
+            border-radius: 8px !important;
+        }}
+        
+        /* 滚动条美化 */
+        section[data-testid="stSidebar"]::-webkit-scrollbar {{
+            width: 6px !important;
+        }}
+        
+        section[data-testid="stSidebar"]::-webkit-scrollbar-track {{
+            background: rgba(0,0,0,0.2) !important;
+        }}
+        
+        section[data-testid="stSidebar"]::-webkit-scrollbar-thumb {{
+            background: {theme['primary']}66 !important;
+            border-radius: 3px !important;
+        }}
+        
+        section[data-testid="stSidebar"]::-webkit-scrollbar-thumb:hover {{
+            background: {theme['primary']} !important;
+        }}
         
         .metric-card {{
             background: linear-gradient(135deg, {theme['card_bg']} 0%, rgba(20,25,45,0.9) 100%);
