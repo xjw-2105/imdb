@@ -88,42 +88,52 @@ def apply_theme_css():
         }}
         #MainMenu, footer, header {{visibility: hidden;}}
         
-        /* 侧边栏样式 - 可滑动 */
-        section[data-testid="stSidebar"] {{
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%) !important;
-            border-right: 3px solid {theme['primary']} !important;
-            min-width: 280px !important;
-        }}
-        
-        /* 侧边栏文字颜色 - 白色清晰可见 */
-        section[data-testid="stSidebar"] * {{
-            color: #ffffff !important;
-        }}
-        section[data-testid="stSidebar"] h1,
-        section[data-testid="stSidebar"] h2,
-        section[data-testid="stSidebar"] h3,
-        section[data-testid="stSidebar"] h4,
-        section[data-testid="stSidebar"] p,
-        section[data-testid="stSidebar"] span,
-        section[data-testid="stSidebar"] label {{
-            color: #ffffff !important;
-        }}
-        section[data-testid="stSidebar"] .stMarkdown {{
-            color: #ffffff !important;
-        }}
-        
-        /* 侧边栏radio按钮文字 */
-        section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] {{
-            color: #ffffff !important;
-        }}
-        section[data-testid="stSidebar"] .st-emotion-cache-1inwz65 {{
-            color: #ffffff !important;
-        }}
-        
-        /* 下拉框样式 */
-        section[data-testid="stSidebar"] [data-testid="stSelectbox"] label {{
-            color: #ffffff !important;
-        }}
+        /* 侧边栏样式 - 修复可见性问题 */
+section[data-testid="stSidebar"] {{
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%) !important;
+    border-right: 3px solid {theme['primary']} !important;
+    min-width: 280px !important;
+    overflow-y: auto !important;  /* 确保可滚动 */
+}}
+
+/* 侧边栏内容容器 - 关键修复 */
+section[data-testid="stSidebar"] > div:first-child {{
+    background: transparent !important;
+    padding-top: 1rem !important;
+}}
+
+section[data-testid="stSidebar"] [data-testid="stSidebarContent"] {{
+    background: transparent !important;
+}}
+
+/* 强制所有文字白色可见 */
+section[data-testid="stSidebar"],
+section[data-testid="stSidebar"] * {{
+    color: #ffffff !important;
+}}
+
+/* Radio 按钮标签 */
+section[data-testid="stSidebar"] [data-testid="stWidgetLabel"],
+section[data-testid="stSidebar"] .stRadio label {{
+    color: #ffffff !important;
+    font-weight: 500 !important;
+}}
+
+/* 下拉框选项 */
+section[data-testid="stSidebar"] [data-baseweb="select"] {{
+    background: rgba(255,255,255,0.1) !important;
+}}
+
+section[data-testid="stSidebar"] [data-baseweb="select"] * {{
+    color: #ffffff !important;
+}}
+
+/* 文件上传器 */
+section[data-testid="stSidebar"] [data-testid="stFileUploader"] {{
+    background: rgba(255,255,255,0.05) !important;
+    border-radius: 8px !important;
+}}
+
         
         .metric-card {{
             background: linear-gradient(135deg, {theme['card_bg']} 0%, rgba(20,25,45,0.9) 100%);
