@@ -88,28 +88,41 @@ def apply_theme_css():
         }}
         #MainMenu, footer, header {{visibility: hidden;}}
         
-        /* 强制显示侧边栏 */
+        /* 侧边栏样式 - 可滑动 */
         section[data-testid="stSidebar"] {{
             background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%) !important;
             border-right: 3px solid {theme['primary']} !important;
-            min-width: 300px !important;
-            width: 300px !important;
-            transform: translateX(0) !important;
-            visibility: visible !important;
-            display: block !important;
+            min-width: 280px !important;
         }}
         
-        /* 确保侧边栏内容可见 */
-        section[data-testid="stSidebar"] > div {{
-            padding: 1rem;
-            display: block !important;
-            visibility: visible !important;
+        /* 侧边栏文字颜色 - 白色清晰可见 */
+        section[data-testid="stSidebar"] * {{
+            color: #ffffff !important;
+        }}
+        section[data-testid="stSidebar"] h1,
+        section[data-testid="stSidebar"] h2,
+        section[data-testid="stSidebar"] h3,
+        section[data-testid="stSidebar"] h4,
+        section[data-testid="stSidebar"] p,
+        section[data-testid="stSidebar"] span,
+        section[data-testid="stSidebar"] label {{
+            color: #ffffff !important;
+        }}
+        section[data-testid="stSidebar"] .stMarkdown {{
+            color: #ffffff !important;
         }}
         
-        /* 隐藏收起按钮，防止用户收起 */
-        button[kind="header"],
-        [data-testid="stSidebarCollapseButton"] {{
-            display: none !important;
+        /* 侧边栏radio按钮文字 */
+        section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] {{
+            color: #ffffff !important;
+        }}
+        section[data-testid="stSidebar"] .st-emotion-cache-1inwz65 {{
+            color: #ffffff !important;
+        }}
+        
+        /* 下拉框样式 */
+        section[data-testid="stSidebar"] [data-testid="stSelectbox"] label {{
+            color: #ffffff !important;
         }}
         
         .metric-card {{
@@ -1428,7 +1441,6 @@ def page_comparison(all_movies: dict):
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown('<div class="comparison-card">', unsafe_allow_html=True)
         # 使用 key 来避免状态问题
         idx1 = st.selectbox("🎬 电影 A", range(len(movie_labels)), 
                            format_func=lambda x: movie_labels[x],
@@ -1442,16 +1454,14 @@ def page_comparison(all_movies: dict):
         poster1 = movie1_data['info'].get('poster', '🎬')
         
         st.markdown(f"""
-        <div style="text-align: center; padding: 1rem;">
+        <div style="text-align: center; padding: 1rem; background: rgba(30,30,50,0.5); border-radius: 12px; border: 1px solid rgba(245,197,24,0.3);">
             <div style="font-size: 3rem;">{poster1}</div>
             <div style="color: #f5c518; font-weight: bold; font-size: 1.2rem;">{movie1_data['info'].get('title', 'Movie 1')}</div>
-            <div style="color: #9ca3af;">评论数: {len(movie1_df)} | 正面率: {pos1*100:.0f}%</div>
+            <div style="color: #e5e7eb;">评论数: {len(movie1_df)} | 正面率: {pos1*100:.0f}%</div>
         </div>
         """, unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
     
     with col2:
-        st.markdown('<div class="comparison-card">', unsafe_allow_html=True)
         # 默认选择第二部电影（如果有的话）
         default_idx2 = 1 if len(movie_labels) > 1 else 0
         # 如果第一个选了1，第二个默认选0
@@ -1470,13 +1480,12 @@ def page_comparison(all_movies: dict):
         poster2 = movie2_data['info'].get('poster', '🎬')
         
         st.markdown(f"""
-        <div style="text-align: center; padding: 1rem;">
+        <div style="text-align: center; padding: 1rem; background: rgba(30,30,50,0.5); border-radius: 12px; border: 1px solid rgba(59,130,246,0.3);">
             <div style="font-size: 3rem;">{poster2}</div>
             <div style="color: #3b82f6; font-weight: bold; font-size: 1.2rem;">{movie2_data['info'].get('title', 'Movie 2')}</div>
-            <div style="color: #9ca3af;">评论数: {len(movie2_df)} | 正面率: {pos2*100:.0f}%</div>
+            <div style="color: #e5e7eb;">评论数: {len(movie2_df)} | 正面率: {pos2*100:.0f}%</div>
         </div>
         """, unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
     
     if movie1_id == movie2_id:
         st.warning("⚠️ 请选择不同的电影进行对比")
